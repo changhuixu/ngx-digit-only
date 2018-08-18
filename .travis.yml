@@ -1,0 +1,25 @@
+dist: trusty
+sudo: false
+
+language: node_js
+node_js:
+  - '8'
+
+branches:
+  only:
+    - master
+
+before_script:
+    # - npm install -g firebase-tools
+
+script:
+  # - npm run build:lib
+  - npm run build:prod
+
+after_success:
+  # - firebase deploy --token $firebase_token
+
+notifications:
+  email:
+    on_failure: always
+    on_success: change
