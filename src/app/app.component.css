@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+demo {
+  width: 10rem;
+}
+
+input {
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  width: 8rem;
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin-bottom: 0.5rem;
+}

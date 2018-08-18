@@ -3,7 +3,7 @@
 An Angular directive only allows [0-9] in the input box when typing, pasting or drag/dropping.
 
 [![Build Status](https://img.shields.io/travis/changhuixu/ngx-digit-only/master.svg?label=Travis%20CI&style=flat-square)](https://travis-ci.org/changhuixu/ngx-digit-only)
-[![npm](https://img.shields.io/npm/v/ngx-digit-only.svg?style=flat-square)](https://www.npmjs.com/package/ngx-digit-only)
+[![npm](https://img.shields.io/npm/v/@uiowa/digit-only.svg?style=flat-square)](https://www.npmjs.com/package/@uiowa/digit-only)
 
 ## [Demo](https://stackblitz.com/github/changhuixu/ngx-digit-only)
 

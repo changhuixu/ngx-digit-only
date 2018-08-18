@@ -121,6 +121,46 @@
           }
         }
       }
+    },
+    "@uiowa/digit-only": {
+      "root": "projects/uiowa/digit-only",
+      "sourceRoot": "projects/uiowa/digit-only/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/uiowa/digit-only/tsconfig.lib.json",
+            "project": "projects/uiowa/digit-only/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/uiowa/digit-only/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/uiowa/digit-only/src/test.ts",
+            "tsConfig": "projects/uiowa/digit-only/tsconfig.spec.json",
+            "karmaConfig": "projects/uiowa/digit-only/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/uiowa/digit-only/tsconfig.lib.json",
+              "projects/uiowa/digit-only/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-digit-only"

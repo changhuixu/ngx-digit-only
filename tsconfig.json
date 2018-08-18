@@ -16,6 +16,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@uiowa/digit-only": [
+        "dist/uiowa/digit-only"
+      ],
+      "@uiowa/digit-only/*": [
+        "dist/uiowa/digit-only/*"
+      ]
+    }
   }
 }
