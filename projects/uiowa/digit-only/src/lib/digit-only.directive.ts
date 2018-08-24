@@ -15,6 +15,10 @@ export class DigitOnlyDirective {
       (e.keyCode === 67 && e.ctrlKey === true) || // Allow: Ctrl+C
       (e.keyCode === 86 && e.ctrlKey === true) || // Allow: Ctrl+V
       (e.keyCode === 88 && e.ctrlKey === true) || // Allow: Ctrl+X
+      (e.keyCode === 65 && e.metaKey === true) || // Allow: Cmd+A (Mac)
+      (e.keyCode === 67 && e.metaKey === true) || // Allow: Cmd+C (Mac)
+      (e.keyCode === 86 && e.metaKey === true) || // Allow: Cmd+V (Mac)
+      (e.keyCode === 88 && e.metaKey === true) || // Allow: Cmd+X (Mac)
       (e.keyCode >= 35 && e.keyCode <= 39) // Allow: home, end, left, right
     ) {
       // let it happen, don't do anything

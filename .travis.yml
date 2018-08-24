@@ -10,14 +10,14 @@ branches:
     - master
 
 before_script:
-    # - npm install -g firebase-tools
+    - npm install -g firebase-tools
 
 script:
   - npm run build:lib
   - npm run build:prod
 
 after_success:
-  # - firebase deploy --token $firebase_token
+  - firebase deploy --token $firebase_token
 
 notifications:
   email:
