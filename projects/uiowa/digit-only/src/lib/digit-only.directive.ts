@@ -7,10 +7,9 @@ export class DigitOnlyDirective {
   constructor(public el: ElementRef) {}
 
   @HostListener('keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    const e = <KeyboardEvent>event;
+  onKeyDown(e: KeyboardEvent) {
     if (
-      [46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
+      [46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 || // Allow: Delete, Backspace, Tab, Escape, Enter
       (e.keyCode === 65 && e.ctrlKey === true) || // Allow: Ctrl+A
       (e.keyCode === 67 && e.ctrlKey === true) || // Allow: Ctrl+C
       (e.keyCode === 86 && e.ctrlKey === true) || // Allow: Ctrl+V
@@ -19,7 +18,7 @@ export class DigitOnlyDirective {
       (e.keyCode === 67 && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.keyCode === 86 && e.metaKey === true) || // Allow: Cmd+V (Mac)
       (e.keyCode === 88 && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (e.keyCode >= 35 && e.keyCode <= 39) // Allow: home, end, left, right
+      (e.keyCode >= 35 && e.keyCode <= 39) // Allow: Home, End, Left, Right
     ) {
       // let it happen, don't do anything
       return;
