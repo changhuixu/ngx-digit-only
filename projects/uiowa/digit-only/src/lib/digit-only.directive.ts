@@ -4,7 +4,10 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[digitOnly]'
 })
 export class DigitOnlyDirective {
-  constructor(public el: ElementRef) {}
+  inputElement: HTMLElement;
+  constructor(el: ElementRef) {
+    this.inputElement = el.nativeElement;
+  }
 
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
@@ -34,13 +37,10 @@ export class DigitOnlyDirective {
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
+    event.preventDefault();
     const pastedInput: string = event.clipboardData
       .getData('text/plain')
       .replace(/\D/g, ''); // get a digit-only string
-    event.preventDefault();
-    if (!pastedInput) {
-      return;
-    }
     document.execCommand('insertText', false, pastedInput);
   }
 
@@ -48,9 +48,7 @@ export class DigitOnlyDirective {
   onDrop(event: DragEvent) {
     event.preventDefault();
     const textData = event.dataTransfer.getData('text').replace(/\D/g, '');
-    if (!textData) {
-      return;
-    }
+    this.inputElement.focus();
     document.execCommand('insertText', false, textData);
   }
 }
