@@ -5,6 +5,8 @@ An Angular directive only allows [0-9] in the input box when typing, pasting or 
 [![Build Status](https://img.shields.io/travis/changhuixu/ngx-digit-only/master.svg?label=Travis%20CI&style=flat-square)](https://travis-ci.org/changhuixu/ngx-digit-only)
 [![npm](https://img.shields.io/npm/v/@uiowa/digit-only.svg?style=flat-square)](https://www.npmjs.com/package/@uiowa/digit-only)
 
+## [Medium Article](https://codeburst.io/digit-only-directive-in-angular-3db8a94d80c3)
+
 ## [Demo](https://digit-only.firebaseapp.com)
 
 ## Installation
@@ -35,4 +37,9 @@ export class YourModule { }
 ```html
 // in your component.html
 <input type="text" digitOnly>
+
+// pull out the numeric keypad in mobile devices and tablets
+<input type="text" name="zipcode" id="zipcode"
+    placeholder="00000" maxlength="5"
+    inputmode="numeric" pattern="[0-9]*" digitOnly>
 ```
