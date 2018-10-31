@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class DigitOnlyDirective {
   inputElement: HTMLElement;
-  constructor(el: ElementRef) {
+  constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
   }
 
