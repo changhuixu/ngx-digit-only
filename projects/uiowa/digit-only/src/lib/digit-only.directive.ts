@@ -4,6 +4,20 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[digitOnly]'
 })
 export class DigitOnlyDirective {
+  private navigationKeys = [
+    'Backspace',
+    'Delete',
+    'Tab',
+    'Escape',
+    'Enter',
+    'Home',
+    'End',
+    'ArrowLeft',
+    'ArrowRight',
+    'Clear',
+    'Copy',
+    'Paste'
+  ];
   inputElement: HTMLElement;
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
@@ -12,16 +26,15 @@ export class DigitOnlyDirective {
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
     if (
-      [46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 || // Allow: Delete, Backspace, Tab, Escape, Enter
-      (e.keyCode === 65 && e.ctrlKey === true) || // Allow: Ctrl+A
-      (e.keyCode === 67 && e.ctrlKey === true) || // Allow: Ctrl+C
-      (e.keyCode === 86 && e.ctrlKey === true) || // Allow: Ctrl+V
-      (e.keyCode === 88 && e.ctrlKey === true) || // Allow: Ctrl+X
-      (e.keyCode === 65 && e.metaKey === true) || // Allow: Cmd+A (Mac)
-      (e.keyCode === 67 && e.metaKey === true) || // Allow: Cmd+C (Mac)
-      (e.keyCode === 86 && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.keyCode === 88 && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (e.keyCode >= 35 && e.keyCode <= 39) // Allow: Home, End, Left, Right
+      this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
+      (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
+      (e.key === 'c' && e.ctrlKey === true) || // Allow: Ctrl+C
+      (e.key === 'v' && e.ctrlKey === true) || // Allow: Ctrl+V
+      (e.key === 'x' && e.ctrlKey === true) || // Allow: Ctrl+X
+      (e.key === 'a' && e.metaKey === true) || // Allow: Cmd+A (Mac)
+      (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
+      (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
+      (e.key === 'x' && e.metaKey === true) // Allow: Cmd+X (Mac)
     ) {
       // let it happen, don't do anything
       return;
