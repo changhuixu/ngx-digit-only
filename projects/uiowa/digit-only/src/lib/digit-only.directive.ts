@@ -40,7 +40,7 @@ export class DigitOnlyDirective {
       return;
     }
     // Ensure that it is a number and stop the keypress
-    if (isNaN(Number(e.key))) {
+    if (e.key === ' ' || isNaN(Number(e.key))) {
       e.preventDefault();
     }
   }
