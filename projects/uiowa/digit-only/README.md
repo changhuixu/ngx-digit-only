@@ -42,4 +42,7 @@ export class YourModule { }
 <input type="text" name="zipcode" id="zipcode"
     placeholder="00000" maxlength="5"
     inputmode="numeric" pattern="[0-9]*" digitOnly>
+
+// turn off browser autocomplete
+<input ... autocomplete="off">
 ```
