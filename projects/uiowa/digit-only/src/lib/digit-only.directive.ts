@@ -38,8 +38,8 @@ export class DigitOnlyDirective {
       (e.key === 'a' && e.metaKey === true) || // Allow: Cmd+A (Mac)
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.key === 'x' && e.metaKey === true) ||
-      (e.key === '.' && this.decimalCounter <= 1)// Allow: Cmd+X (Mac)
+      (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
+      (e.key === '.' && this.decimalCounter <= 1) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
       return;
@@ -75,7 +75,7 @@ export class DigitOnlyDirective {
 
   }
 
-  hasMoreThanOneDecimal(string: String): boolean {
+  hasMoreThanOneDecimal(string: string): boolean {
     return string.split('.').length <= 2;
   }
 }
