@@ -4,6 +4,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[digitOnly]'
 })
 export class DigitOnlyDirective {
+  private decimalCounter = 0;
   private navigationKeys = [
     'Backspace',
     'Delete',
@@ -25,6 +26,9 @@ export class DigitOnlyDirective {
 
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
+
+    e.key === '.' ? this.decimalCounter++ : '';
+
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
       (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
@@ -34,7 +38,8 @@ export class DigitOnlyDirective {
       (e.key === 'a' && e.metaKey === true) || // Allow: Cmd+A (Mac)
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.key === 'x' && e.metaKey === true) // Allow: Cmd+X (Mac)
+      (e.key === 'x' && e.metaKey === true) ||
+      (e.key === '.' && this.decimalCounter <= 1)// Allow: Cmd+X (Mac)
     ) {
       // let it happen, don't do anything
       return;
@@ -50,15 +55,27 @@ export class DigitOnlyDirective {
     event.preventDefault();
     const pastedInput: string = event.clipboardData
       .getData('text/plain')
-      .replace(/\D/g, ''); // get a digit-only string
-    document.execCommand('insertText', false, pastedInput);
+      .replace(/[^0-9.]/g, ''); // get a digit-only string
+
+    if (this.hasMoreThanOneDecimal(pastedInput)) {
+      document.execCommand('insertText', false, pastedInput);
+    }
+
   }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
     event.preventDefault();
-    const textData = event.dataTransfer.getData('text').replace(/\D/g, '');
+    const textData = event.dataTransfer.getData('text').replace(/[^0-9.]/g, '');
     this.inputElement.focus();
-    document.execCommand('insertText', false, textData);
+
+    if (this.hasMoreThanOneDecimal(textData)) {
+      document.execCommand('insertText', false, textData);
+    }
+
+  }
+
+  hasMoreThanOneDecimal(string: String): boolean {
+    return string.split('.').length <= 2;
   }
 }
