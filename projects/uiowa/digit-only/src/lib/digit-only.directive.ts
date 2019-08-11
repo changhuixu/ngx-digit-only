@@ -57,7 +57,7 @@ export class DigitOnlyDirective {
       .getData('text/plain')
       .replace(/[^0-9.]/g, ''); // get a digit-only string
 
-    if (this.hasMoreThanOneDecimal(pastedInput)) {
+    if (this.isValidDecimal(pastedInput)) {
       document.execCommand('insertText', false, pastedInput);
     }
 
@@ -69,13 +69,13 @@ export class DigitOnlyDirective {
     const textData = event.dataTransfer.getData('text').replace(/[^0-9.]/g, '');
     this.inputElement.focus();
 
-    if (this.hasMoreThanOneDecimal(textData)) {
+    if (this.isValidDecimal(textData)) {
       document.execCommand('insertText', false, textData);
     }
 
   }
 
-  hasMoreThanOneDecimal(string: string): boolean {
+  isValidDecimal(string: string): boolean {
     return string.split('.').length <= 2;
   }
 }
