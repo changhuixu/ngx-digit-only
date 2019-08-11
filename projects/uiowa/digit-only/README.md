@@ -2,6 +2,8 @@
 
 An Angular directive only allows [0-9] in the input box when typing, pasting or drag/dropping. This directive handles both Windows keyboard and Mac keyboard.
 
+Since v1.1.0, this directive also accepts an attribute which indicates if the input number allows a decimal point.
+
 [![Build Status](https://img.shields.io/travis/changhuixu/ngx-digit-only/master.svg?label=Travis%20CI&style=flat-square)](https://travis-ci.org/changhuixu/ngx-digit-only)
 [![npm](https://img.shields.io/npm/v/@uiowa/digit-only.svg?style=flat-square)](https://www.npmjs.com/package/@uiowa/digit-only)
 
@@ -45,4 +47,7 @@ export class YourModule { }
 
 // turn off browser autocomplete
 <input ... autocomplete="off">
+
+// allows decimal input
+<input id="decimal-number" type="text" digitOnly decimal="true" placeholder="000">
 ```

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[digitOnly]'
@@ -19,6 +19,7 @@ export class DigitOnlyDirective {
     'Copy',
     'Paste'
   ];
+  @Input() decimal? = false;
   inputElement: HTMLElement;
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
@@ -26,7 +27,6 @@ export class DigitOnlyDirective {
 
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
-
     e.key === '.' ? this.decimalCounter++ : '';
 
     if (
@@ -39,7 +39,7 @@ export class DigitOnlyDirective {
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
       (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (e.key === '.' && this.decimalCounter <= 1) // Allow: only one decimal point
+      (this.decimal && e.key === '.' && this.decimalCounter <= 1) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
       return;
@@ -53,26 +53,42 @@ export class DigitOnlyDirective {
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
-    const pastedInput: string = event.clipboardData
-      .getData('text/plain')
-      .replace(/[^0-9.]/g, ''); // get a digit-only string
+    const pastedInput: string = event.clipboardData.getData('text/plain');
 
-    if (this.isValidDecimal(pastedInput)) {
-      document.execCommand('insertText', false, pastedInput);
+    if (!this.decimal) {
+      document.execCommand(
+        'insertText',
+        false,
+        pastedInput.replace(/[^0-9]/g, '')
+      );
+    } else if (this.isValidDecimal(pastedInput)) {
+      document.execCommand(
+        'insertText',
+        false,
+        pastedInput.replace(/[^0-9.]/g, '')
+      );
     }
-
   }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
     event.preventDefault();
-    const textData = event.dataTransfer.getData('text').replace(/[^0-9.]/g, '');
+    const textData = event.dataTransfer.getData('text');
     this.inputElement.focus();
 
-    if (this.isValidDecimal(textData)) {
-      document.execCommand('insertText', false, textData);
+    if (!this.decimal) {
+      document.execCommand(
+        'insertText',
+        false,
+        textData.replace(/[^0-9]/g, '')
+      );
+    } else if (this.isValidDecimal(textData)) {
+      document.execCommand(
+        'insertText',
+        false,
+        textData.replace(/[^0-9.]/g, '')
+      );
     }
-
   }
 
   isValidDecimal(string: string): boolean {

@@ -2,22 +2,73 @@
   <h2>Try to type letters and numbers</h2>
 
   <label for="digit-only">Digit Only input box</label>
-  <input id="digit-only" type="text" digitOnly placeholder="000">
+  <input id="digit-only" type="text" digitOnly placeholder="000" />
 
-  <label for="digit-only-with-max-length">Digit Only input box with max length 3</label>
-  <input id="digit-only-with-max-length" type="text" digitOnly placeholder="000" maxlength="3">
+  <label for="digit-only"
+    >Digit Only input box that allows a decimal point</label
+  >
+  <input
+    id="digit-only"
+    type="text"
+    digitOnly
+    decimal="true"
+    placeholder="000"
+  />
 
-  <label for="creditcard_number">Digt Only input test in mobile device</label> 
-  <input type="text" name="creditcard" id="creditcard_number" placeholder="000" maxlength="3"
-    inputmode="numeric" pattern="[0-9]*" digitOnly>
+  <label for="digit-only-with-max-length"
+    >Digit Only input box with max length 3</label
+  >
+  <input
+    id="digit-only-with-max-length"
+    type="text"
+    digitOnly
+    placeholder="000"
+    maxlength="3"
+  />
+
+  <label for="creditcard_number">Digt Only input test in mobile device</label>
+  <input
+    type="text"
+    name="creditcard"
+    id="creditcard_number"
+    placeholder="000"
+    maxlength="3"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    digitOnly
+  />
+
+  <label for="creditcard_number"
+    >Digt Only input test in mobile device (allows decimal point)
+  </label>
+  <input
+    type="text"
+    name="creditcard"
+    id="creditcard_number"
+    placeholder="000"
+    maxlength="3"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    digitOnly
+    decimal="true"
+  />
 
   <label for="text">regular text input</label>
-  <input id="text" type="text" placeholder="regular text input">
+  <input id="text" type="text" placeholder="regular text input" />
 
   <label for="text">text input with pattern attribute</label>
-  <input type="text" pattern="[0-9]*" maxlength="3" name="code" title="3 digits code" placeholder="000">
+  <input
+    type="text"
+    pattern="[0-9]*"
+    maxlength="3"
+    name="code"
+    title="3 digits code"
+    placeholder="000"
+  />
 
   <p>
-    <a title="github" href="https://github.com/changhuixu/ngx-digit-only">GitHub Repo</a>
+    <a title="github" href="https://github.com/changhuixu/ngx-digit-only"
+      >GitHub Repo</a
+    >
   </p>
 </div>
