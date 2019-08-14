@@ -21,14 +21,13 @@ export class DigitOnlyDirective {
   ];
   @Input() decimal? = false;
   inputElement: HTMLElement;
+
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
   }
 
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
-    e.key === '.' ? this.decimalCounter++ : '';
-
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
       (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
@@ -39,7 +38,7 @@ export class DigitOnlyDirective {
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
       (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (this.decimal && e.key === '.' && this.decimalCounter <= 1) // Allow: only one decimal point
+      (this.decimal && e.key === '.' && this.decimalCounter < 1) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
       return;
@@ -47,6 +46,15 @@ export class DigitOnlyDirective {
     // Ensure that it is a number and stop the keypress
     if (e.key === ' ' || isNaN(Number(e.key))) {
       e.preventDefault();
+    }
+  }
+
+  @HostListener('keyup', ['$event'])
+  onKeyUp(e: KeyboardEvent) {
+    if (!this.decimal) {
+      return;
+    } else {
+      this.decimalCounter = this.el.nativeElement.value.split('.').length - 1;
     }
   }
 
