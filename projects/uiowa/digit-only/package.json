@@ -1,6 +1,6 @@
 {
   "name": "@uiowa/digit-only",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Changhui Xu <changhui-xu@uiowa.edu>",
   "description": "An Angular directive only allows [0-9] in the input box when typing, pasting or drag/dropping. This directive handles both Windows keyboard and Mac keyboard.",
   "keywords": [
