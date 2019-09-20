@@ -20,7 +20,7 @@ export class DigitOnlyDirective {
     'Paste'
   ];
   @Input() decimal? = false;
-  inputElement: HTMLElement;
+  inputElement: HTMLInputElement;
 
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
@@ -60,42 +60,57 @@ export class DigitOnlyDirective {
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
-    event.preventDefault();
     const pastedInput: string = event.clipboardData.getData('text/plain');
-
+    let pasted = false;
     if (!this.decimal) {
-      document.execCommand(
+      pasted = document.execCommand(
         'insertText',
         false,
         pastedInput.replace(/[^0-9]/g, '')
       );
     } else if (this.isValidDecimal(pastedInput)) {
-      document.execCommand(
+      pasted = document.execCommand(
         'insertText',
         false,
         pastedInput.replace(/[^0-9.]/g, '')
       );
     }
+    if (pasted) {
+      event.preventDefault();
+    } else {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(pastedInput);
+        document.execCommand('paste');
+      }
+    }
   }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
-    event.preventDefault();
     const textData = event.dataTransfer.getData('text');
     this.inputElement.focus();
 
+    let pasted = false;
     if (!this.decimal) {
-      document.execCommand(
+      pasted = document.execCommand(
         'insertText',
         false,
         textData.replace(/[^0-9]/g, '')
       );
     } else if (this.isValidDecimal(textData)) {
-      document.execCommand(
+      pasted = document.execCommand(
         'insertText',
         false,
         textData.replace(/[^0-9.]/g, '')
       );
+    }
+    if (pasted) {
+      event.preventDefault();
+    } else {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(textData);
+        document.execCommand('paste');
+      }
     }
   }
 
