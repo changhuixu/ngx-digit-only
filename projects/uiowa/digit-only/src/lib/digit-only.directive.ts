@@ -19,7 +19,7 @@ export class DigitOnlyDirective {
     'Copy',
     'Paste'
   ];
-  @Input() decimal? = false;
+  @Input() decimal?= false;
   inputElement: HTMLInputElement;
 
   constructor(public el: ElementRef) {
@@ -60,22 +60,28 @@ export class DigitOnlyDirective {
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
+    event.preventDefault();
     let pastedInput: string = event.clipboardData.getData('text/plain');
     pastedInput = this.sanatizeInput(pastedInput);
-    const { selectionStart: start, selectionEnd: end } = this.inputElement;
-    this.inputElement.setRangeText(pastedInput, start, end, 'end');
-    event.preventDefault();
+    const pasted = document.execCommand('insertText', false, pastedInput);
+    if (!pasted) {
+      const { selectionStart: start, selectionEnd: end } = this.inputElement;
+      this.inputElement.setRangeText(pastedInput, start, end, 'end');
+    }
   }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
+    event.preventDefault();
     let textData = event.dataTransfer.getData('text');
     this.inputElement.focus();
 
     textData = this.sanatizeInput(textData);
-    const { selectionStart: start, selectionEnd: end } = this.inputElement;
-    this.inputElement.setRangeText(textData, start, end, 'end');
-    event.preventDefault();
+    const pasted = document.execCommand('insertText', false, textData);
+    if (!pasted) {
+      const { selectionStart: start, selectionEnd: end } = this.inputElement;
+      this.inputElement.setRangeText(textData, start, end, 'end');
+    }
   }
 
   private sanatizeInput(input: string): string {
