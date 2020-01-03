@@ -2,17 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { DigitOnlyModule } from '@uiowa/digit-only';
+import { DigitOnlyModule } from 'projects/uiowa/digit-only/src/public_api';
+// import { DigitOnlyModule } from '@uiowa/digit-only';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    DigitOnlyModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, DigitOnlyModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

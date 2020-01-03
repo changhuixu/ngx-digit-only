@@ -60,60 +60,31 @@ export class DigitOnlyDirective {
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
-    const pastedInput: string = event.clipboardData.getData('text/plain');
-    let pasted = false;
-    if (!this.decimal) {
-      pasted = document.execCommand(
-        'insertText',
-        false,
-        pastedInput.replace(/[^0-9]/g, '')
-      );
-    } else if (this.isValidDecimal(pastedInput)) {
-      pasted = document.execCommand(
-        'insertText',
-        false,
-        pastedInput.replace(/[^0-9.]/g, '')
-      );
-    }
-    if (pasted) {
-      event.preventDefault();
-    } else {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(pastedInput);
-        document.execCommand('paste');
-      }
-    }
+    let pastedInput: string = event.clipboardData.getData('text/plain');
+    pastedInput = this.sanatizeInput(pastedInput);
+    const { selectionStart: start, selectionEnd: end } = this.inputElement;
+    this.inputElement.setRangeText(pastedInput, start, end, 'end');
+    event.preventDefault();
   }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
-    const textData = event.dataTransfer.getData('text');
+    let textData = event.dataTransfer.getData('text');
     this.inputElement.focus();
 
-    let pasted = false;
-    if (!this.decimal) {
-      pasted = document.execCommand(
-        'insertText',
-        false,
-        textData.replace(/[^0-9]/g, '')
-      );
-    } else if (this.isValidDecimal(textData)) {
-      pasted = document.execCommand(
-        'insertText',
-        false,
-        textData.replace(/[^0-9.]/g, '')
-      );
-    }
-    if (pasted) {
-      event.preventDefault();
-    } else {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(textData);
-        document.execCommand('paste');
-      }
-    }
+    textData = this.sanatizeInput(textData);
+    const { selectionStart: start, selectionEnd: end } = this.inputElement;
+    this.inputElement.setRangeText(textData, start, end, 'end');
+    event.preventDefault();
   }
 
+  private sanatizeInput(input: string): string {
+    if (this.decimal && this.isValidDecimal(input)) {
+      return input.replace(/[^0-9.]/g, '');
+    } else {
+      return input.replace(/[^0-9]/g, '');
+    }
+  }
   isValidDecimal(string: string): boolean {
     return string.split('.').length <= 2;
   }
