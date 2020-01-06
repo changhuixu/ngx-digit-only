@@ -60,27 +60,25 @@ export class DigitOnlyDirective {
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
+    const pastedInput: string = event.clipboardData.getData('text/plain');
+    this.pasteData(pastedInput);
     event.preventDefault();
-    let pastedInput: string = event.clipboardData.getData('text/plain');
-    pastedInput = this.sanatizeInput(pastedInput);
-    const pasted = document.execCommand('insertText', false, pastedInput);
-    if (!pasted) {
-      const { selectionStart: start, selectionEnd: end } = this.inputElement;
-      this.inputElement.setRangeText(pastedInput, start, end, 'end');
-    }
   }
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent) {
-    event.preventDefault();
-    let textData = event.dataTransfer.getData('text');
+    const textData = event.dataTransfer.getData('text');
     this.inputElement.focus();
+    this.pasteData(textData);
+    event.preventDefault();
+  }
 
-    textData = this.sanatizeInput(textData);
-    const pasted = document.execCommand('insertText', false, textData);
+  private pasteData(pastedContent: string): void {
+    const sanitizedContent = this.sanatizeInput(pastedContent);
+    const pasted = document.execCommand('insertText', false, sanitizedContent);
     if (!pasted) {
       const { selectionStart: start, selectionEnd: end } = this.inputElement;
-      this.inputElement.setRangeText(textData, start, end, 'end');
+      this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
     }
   }
 
@@ -91,7 +89,8 @@ export class DigitOnlyDirective {
       return input.replace(/[^0-9]/g, '');
     }
   }
-  isValidDecimal(string: string): boolean {
+
+  private isValidDecimal(string: string): boolean {
     return string.split('.').length <= 2;
   }
 }
