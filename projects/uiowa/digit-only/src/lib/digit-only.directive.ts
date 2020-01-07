@@ -83,11 +83,19 @@ export class DigitOnlyDirective {
   }
 
   private sanatizeInput(input: string): string {
+    let result = '';
     if (this.decimal && this.isValidDecimal(input)) {
-      return input.replace(/[^0-9.]/g, '');
+      result = input.replace(/[^0-9.]/g, '');
     } else {
-      return input.replace(/[^0-9]/g, '');
+      result = input.replace(/[^0-9]/g, '');
     }
+
+    const maxLength = this.inputElement.maxLength;
+    if (maxLength > 0) { // the input element has maxLength limit
+      const allowedLength = maxLength - this.inputElement.value.length;
+      result = allowedLength > 0 ? result.substring(0, allowedLength) : '';
+    }
+    return result;
   }
 
   private isValidDecimal(string: string): boolean {
