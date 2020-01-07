@@ -12,7 +12,8 @@
     type="text"
     digitOnly
     decimal="true"
-    placeholder="000"
+    placeholder="0.00"
+    pattern="[0-9]+([\.][0-9]+)?"
   />
 
   <label for="digit-only-with-max-length"
@@ -40,18 +41,18 @@
     digitOnly
   />
 
-  <label for="creditcard_number"
+  <label for="decimal-number"
     >Digt Only input test in <strong>mobile device</strong> (allows a
     <i>decimal point</i>)
   </label>
   <input
     type="text"
-    name="creditcard"
-    id="creditcard_number"
-    placeholder="000"
-    maxlength="3"
+    name="decimal-number"
+    id="decimal-number"
+    placeholder="00.00"
+    maxlength="5"
     inputmode="numeric"
-    pattern="[0-9]*"
+    pattern="[0-9]+([\.][0-9]+)?"
     digitOnly
     decimal="true"
   />
