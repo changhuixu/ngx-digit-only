@@ -38,7 +38,7 @@ export class DigitOnlyDirective {
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
       (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (this.decimal && e.key === '.' && this.decimalCounter < 1) // Allow: only one decimal point
+      (this.decimal && (e.key === '.' || e.key === ',') && this.decimalCounter < 1) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
       return;
@@ -55,6 +55,7 @@ export class DigitOnlyDirective {
       return;
     } else {
       this.decimalCounter = this.el.nativeElement.value.split('.').length - 1;
+      this.decimalCounter += this.el.nativeElement.value.split(',').length - 1;
     }
   }
 
@@ -99,6 +100,6 @@ export class DigitOnlyDirective {
   }
 
   private isValidDecimal(string: string): boolean {
-    return string.split('.').length <= 2;
+    return (string.split('.').length + string.split(',').length) <= 2;
   }
 }
