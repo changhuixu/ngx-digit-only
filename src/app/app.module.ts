@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { DigitOnlyModule } from 'projects/uiowa/digit-only/src/public_api';
+import { DigitOnlyModule } from 'projects/uiowa/digit-only/src/public-api';
 // import { DigitOnlyModule } from '@uiowa/digit-only';
 
 @NgModule({
