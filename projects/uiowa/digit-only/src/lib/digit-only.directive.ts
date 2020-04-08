@@ -4,10 +4,11 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
   selector: '[digitOnly]'
 })
 export class DigitOnlyDirective {
-  private decimalCounter = 0;
-  private navigationKeys = [
+  private _hasDecimal = false;
+  private _navKeys = [
     'Backspace',
     'Delete',
+    'Clear',
     'Tab',
     'Escape',
     'Enter',
@@ -15,12 +16,11 @@ export class DigitOnlyDirective {
     'End',
     'ArrowLeft',
     'ArrowRight',
-    'Clear',
     'Copy',
     'Paste'
   ];
-  @Input() decimal ? = false;
-  @Input() decimalSeparator ? = '.';
+  @Input() decimal = false;
+  @Input() decimalSeparator = '.';
   inputElement: HTMLInputElement;
 
   constructor(public el: ElementRef) {
@@ -28,9 +28,9 @@ export class DigitOnlyDirective {
   }
 
   @HostListener('keydown', ['$event'])
-  onKeyDown(e: KeyboardEvent) {
+  onKeyDown(e: KeyboardEvent): void {
     if (
-      this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
+      this._navKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
       (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
       (e.key === 'c' && e.ctrlKey === true) || // Allow: Ctrl+C
       (e.key === 'v' && e.ctrlKey === true) || // Allow: Ctrl+V
@@ -39,7 +39,7 @@ export class DigitOnlyDirective {
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
       (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (this.decimal && (e.key === this.decimalSeparator) && this.decimalCounter < 1) // Allow: only one decimal point
+      (this.decimal && e.key === this.decimalSeparator && !this._hasDecimal) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
       return;
@@ -51,31 +51,29 @@ export class DigitOnlyDirective {
   }
 
   @HostListener('keyup', ['$event'])
-  onKeyUp(e: KeyboardEvent) {
-    if (!this.decimal) {
-      return;
-    } else {
-      this.decimalCounter = this.el.nativeElement.value.split(this.decimalSeparator).length - 1;
-    }
+  onKeyUp(_: KeyboardEvent): void {
+    this._setHasDecimal();
   }
 
   @HostListener('paste', ['$event'])
-  onPaste(event: ClipboardEvent) {
-    const pastedInput: string = event.clipboardData.getData('text/plain');
-    this.pasteData(pastedInput);
-    event.preventDefault();
+  onPaste(e: ClipboardEvent): void {
+    const pastedInput = e.clipboardData.getData('text/plain');
+    this._pasteData(pastedInput);
+    this._setHasDecimal();
+    e.preventDefault();
   }
 
   @HostListener('drop', ['$event'])
-  onDrop(event: DragEvent) {
-    const textData = event.dataTransfer.getData('text');
+  onDrop(e: DragEvent): void {
+    const textData = e.dataTransfer.getData('text');
     this.inputElement.focus();
-    this.pasteData(textData);
-    event.preventDefault();
+    this._pasteData(textData);
+    this._setHasDecimal();
+    e.preventDefault();
   }
 
-  private pasteData(pastedContent: string): void {
-    const sanitizedContent = this.sanatizeInput(pastedContent);
+  private _pasteData(pastedContent: string): void {
+    const sanitizedContent = this._sanatizeInput(pastedContent);
     const pasted = document.execCommand('insertText', false, sanitizedContent);
     if (!pasted) {
       const { selectionStart: start, selectionEnd: end } = this.inputElement;
@@ -83,13 +81,16 @@ export class DigitOnlyDirective {
     }
   }
 
-  private sanatizeInput(input: string): string {
+  private _sanatizeInput(input: string): string {
     let result = '';
-    if (this.decimal && this.isValidDecimal(input)) {
+    const selectedText = this._getSelection();
+    const inputHasDecimal = this._hasDecimalSeparator(input);
+    const selectionHasDecimal = this._hasDecimalSeparator(selectedText);
+    if (this.decimal && this._hasDecimal && inputHasDecimal && !selectionHasDecimal) {
+      result = input.replace(/[^0-9]/g, '');
+    } else {
       const regex = new RegExp(`[^0-9${this.decimalSeparator}]`, 'g');
       result = input.replace(regex, '');
-    } else {
-      result = input.replace(/[^0-9]/g, '');
     }
 
     const maxLength = this.inputElement.maxLength;
@@ -100,7 +101,23 @@ export class DigitOnlyDirective {
     return result;
   }
 
-  private isValidDecimal(string: string): boolean {
-    return string.split(this.decimalSeparator).length <= 2;
+  private _hasDecimalSeparator(string: string): boolean {
+    const regex = new RegExp(`\\${this.decimalSeparator}`);
+    return regex.test(string);
+  }
+
+  private _setHasDecimal(): void {
+    if (this.decimal) {
+      const regex = new RegExp(`\\${this.decimalSeparator}`);
+      const currentValue = this.inputElement.value;
+      this._hasDecimal = regex.test(currentValue);
+    }
+  }
+
+  private _getSelection(): string {
+    return this.inputElement.value.substring(
+      this.inputElement.selectionStart,
+      this.inputElement.selectionEnd
+    );
   }
 }
