@@ -6,10 +6,10 @@
     "ngx-digit-only": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:class": {
+        "@schematics/angular:component": {
           "skipTests": true
         },
-        "@schematics/angular:component": {
+        "@schematics/angular:class": {
           "skipTests": true
         },
         "@schematics/angular:directive": {
@@ -146,6 +146,6 @@
   },
   "defaultProject": "ngx-digit-only",
   "cli": {
-    "analytics": "2cbfe4b3-73e0-43cf-8d00-a63a9ed4e8b0"
+    "analytics": "78a806da-7604-4a8f-9ffc-d44f434d3fb0"
   }
 }
