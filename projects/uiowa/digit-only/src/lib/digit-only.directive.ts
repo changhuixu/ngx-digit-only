@@ -86,7 +86,7 @@ export class DigitOnlyDirective {
     const selectedText = this._getSelection();
     const inputHasDecimal = this._hasDecimalSeparator(input);
     const selectionHasDecimal = this._hasDecimalSeparator(selectedText);
-    if (this.decimal && this._hasDecimal && inputHasDecimal && !selectionHasDecimal) {
+    if (!this.decimal || (this.decimal && this._hasDecimal && inputHasDecimal && !selectionHasDecimal)) {
       result = input.replace(/[^0-9]/g, '');
     } else {
       const regex = new RegExp(`[^0-9${this.decimalSeparator}]`, 'g');
