@@ -1,5 +1,3 @@
-
-
 describe('Keyboard Typing', () => {
   beforeEach(() => {
     cy.visit('');
@@ -75,24 +73,4 @@ describe('Keyboard Typing', () => {
     input.type('1s2d4d*(,.35').should('have.value', '124.3');
     input.clear();
   });
-});
-
-describe('Copy & Paste', () => {
-  beforeEach(() => {
-    cy.visit('');
-  });
-
-  it.only('should copy and paste in a regular input element', () => {
-    const dt = new DataTransfer();
-    dt.setData('text/plain', 'abc');
-    const pasteEvent = new ClipboardEvent('paste', {
-      clipboardData: dt,
-      bubbles: true,
-      cancelable: true,
-    });
-    const el = Cypress.$('#regular-text')[0];
-    el.dispatchEvent(pasteEvent); // doesn't change input element value
-  });
-
-
 });
