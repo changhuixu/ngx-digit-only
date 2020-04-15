@@ -1,8 +1,6 @@
-const url = 'http://localhost:4200';
-
 describe('Keyboard Typing', () => {
   beforeEach(() => {
-    cy.visit(url);
+    cy.visit('');
   });
 
   it('should accept number keys, not other symbols', () => {
@@ -74,24 +72,5 @@ describe('Keyboard Typing', () => {
     const input = cy.get('#decimal-number');
     input.type('1s2d4d*(,.35').should('have.value', '124.3');
     input.clear();
-  });
-});
-
-describe('Copy & Paste', () => {
-  beforeEach(() => {
-    cy.visit(url);
-  });
-
-  it('should copy and paste in a regular input element', () => {
-    const regularInput = cy.get('#regular-text');
-    regularInput.type('1s2d4d*(,.35').should('have.value', '1s2d4d*(,.35');
-    regularInput.type('{selectall}');
-    // regularInput.type('{cmd}c');
-    // document.execCommand('copy'); // not working
-    regularInput.clear();
-    // document.execCommand('paste');// not working
-    // regularInput.type('{cmd}v');
-    // regularInput.should('have.value', '1s2d4d*(,.35');
-    regularInput.clear();
   });
 });

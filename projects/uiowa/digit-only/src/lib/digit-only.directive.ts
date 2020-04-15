@@ -78,7 +78,7 @@ export class DigitOnlyDirective {
   }
 
   private pasteData(pastedContent: string): void {
-    const sanitizedContent = this.sanatizeInput(pastedContent);
+    const sanitizedContent = this.sanitizeInput(pastedContent);
     const pasted = document.execCommand('insertText', false, sanitizedContent);
     if (!pasted) {
       const { selectionStart: start, selectionEnd: end } = this.inputElement;
@@ -86,7 +86,7 @@ export class DigitOnlyDirective {
     }
   }
 
-  private sanatizeInput(input: string): string {
+  private sanitizeInput(input: string): string {
     let result = '';
     if (this.decimal && this.isValidDecimal(input)) {
       const regex = new RegExp(`[^0-9${this.decimalSeparator}]`, 'g');
