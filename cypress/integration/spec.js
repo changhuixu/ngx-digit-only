@@ -1,8 +1,8 @@
-const url = 'http://localhost:4200';
+
 
 describe('Keyboard Typing', () => {
   beforeEach(() => {
-    cy.visit(url);
+    cy.visit('');
   });
 
   it('should accept number keys, not other symbols', () => {
@@ -79,19 +79,20 @@ describe('Keyboard Typing', () => {
 
 describe('Copy & Paste', () => {
   beforeEach(() => {
-    cy.visit(url);
+    cy.visit('');
   });
 
-  it('should copy and paste in a regular input element', () => {
-    const regularInput = cy.get('#regular-text');
-    regularInput.type('1s2d4d*(,.35').should('have.value', '1s2d4d*(,.35');
-    regularInput.type('{selectall}');
-    // regularInput.type('{cmd}c');
-    // document.execCommand('copy'); // not working
-    regularInput.clear();
-    // document.execCommand('paste');// not working
-    // regularInput.type('{cmd}v');
-    // regularInput.should('have.value', '1s2d4d*(,.35');
-    regularInput.clear();
+  it.only('should copy and paste in a regular input element', () => {
+    const dt = new DataTransfer();
+    dt.setData('text/plain', 'abc');
+    const pasteEvent = new ClipboardEvent('paste', {
+      clipboardData: dt,
+      bubbles: true,
+      cancelable: true,
+    });
+    const el = Cypress.$('#regular-text')[0];
+    el.dispatchEvent(pasteEvent); // doesn't change input element value
   });
+
+
 });
