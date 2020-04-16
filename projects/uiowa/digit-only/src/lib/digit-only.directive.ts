@@ -54,12 +54,7 @@ export class DigitOnlyDirective {
 
   @HostListener('keyup', ['$event'])
   onKeyUp(e: KeyboardEvent) {
-    if (!this.decimal) {
-      return;
-    } else {
-      this.decimalCounter =
-        this.el.nativeElement.value.split(this.decimalSeparator).length - 1;
-    }
+    this.setDecimalCounter();
   }
 
   @HostListener('paste', ['$event'])
@@ -84,6 +79,7 @@ export class DigitOnlyDirective {
       const { selectionStart: start, selectionEnd: end } = this.inputElement;
       this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
     }
+    this.setDecimalCounter();
   }
 
   private sanitizeInput(input: string): string {
@@ -109,7 +105,26 @@ export class DigitOnlyDirective {
       return string.split(this.decimalSeparator).length <= 2;
     } else {
       // the input element already has a decimal separator
-      return string.indexOf(this.decimalSeparator) < 0;
+      const selectedText = this.getSelection();
+      if (selectedText && selectedText.indexOf(this.decimalSeparator) > -1) {
+        return string.split(this.decimalSeparator).length <= 2;
+      } else {
+        return string.indexOf(this.decimalSeparator) < 0;
+      }
     }
+  }
+
+  private setDecimalCounter(): void {
+    if (this.decimal) {
+      this.decimalCounter =
+        this.inputElement.value.split(this.decimalSeparator).length - 1;
+    }
+  }
+
+  private getSelection(): string {
+    return this.inputElement.value.substring(
+      this.inputElement.selectionStart,
+      this.inputElement.selectionEnd
+    );
   }
 }
