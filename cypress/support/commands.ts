@@ -51,8 +51,8 @@ Cypress.Commands.add(
  *  });
  */
 export function paste(
-  subject,
-  { pastePayload, simple = false, pasteType = 'text/plain' }
+  subject: JQuery<HTMLInputElement>,
+  { pastePayload = '', simple = false }
 ) {
   if (simple) {
     subject[0].value = pastePayload;
@@ -60,6 +60,7 @@ export function paste(
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event
+  // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData
   const dt = new DataTransfer();
   dt.setData('text/plain', pastePayload);
   const pasteEvent = new ClipboardEvent('paste', {
@@ -68,6 +69,5 @@ export function paste(
     cancelable: true,
   });
   subject[0].dispatchEvent(pasteEvent);
-  debugger
   return subject;
 }

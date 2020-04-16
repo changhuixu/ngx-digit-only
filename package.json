@@ -35,9 +35,9 @@
     "@angular/compiler-cli": "~9.1.1",
     "@angular/language-service": "~9.1.1",
     "@types/node": "^12.11.1",
-    "cypress": "^4.3.0",
+    "cypress": "^4.4.0",
     "ng-packagr": "^9.0.0",
-    "start-server-and-test": "^1.10.11",
+    "start-server-and-test": "^1.11.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"
