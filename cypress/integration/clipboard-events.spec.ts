@@ -108,6 +108,22 @@ describe('Copy & Paste', () => {
       cy.get('#digit-only-decimal').should('have.value', '124.54501');
     });
 
+    cy.get('#digit-only-decimal').then(($el) => {
+      $el[0].setSelectionRange(2, 8); // should select 4.5450
+
+      dt.setData('text/plain', '7.8');
+      $el[0].dispatchEvent(pasteEvent);
+      cy.get('#digit-only-decimal').should('have.value', '127.81');
+    });
+
+    cy.get('#digit-only-decimal').then(($el) => {
+      $el[0].setSelectionRange(2, 3); // should select 7
+
+      dt.setData('text/plain', '3.4');
+      $el[0].dispatchEvent(pasteEvent);
+      cy.get('#digit-only-decimal').should('have.value', '1234.81');
+    });
+
     cy.get('#digit-only-decimal').clear();
   });
 
@@ -196,14 +212,14 @@ describe('Copy & Paste', () => {
     cy.get('#decimal-number').clear();
 
     cy.get('#decimal-number').then(($el) => {
-        dt.setData('text/plain', '123456');
+      dt.setData('text/plain', '123456');
       $el[0].dispatchEvent(pasteEvent);
       // should only allow numbers
       cy.get('#decimal-number').should('have.value', '12345');
     });
 
     // should move cursor and accept a new digit
-      cy.get('#decimal-number')
+    cy.get('#decimal-number')
       .type('{leftarrow}{backspace}{backspace}.67')
       .should('have.value', '12.65');
 
