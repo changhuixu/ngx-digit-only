@@ -1,10 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  Attribute,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[digitOnly]',
@@ -28,20 +22,12 @@ export class DigitOnlyDirective {
   @Input() decimal? = false;
   @Input() decimalSeparator? = '.';
   inputElement: HTMLInputElement;
+  regex: RegExp;
 
-  constructor(
-    public el: ElementRef,
-    @Attribute('decimalPrecision') public decimalPrecision: number
-  ) {
+  constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
-    if (
-      !this.decimalPrecision ||
-      isNaN(this.decimalPrecision) ||
-      this.decimalPrecision < 1
-    ) {
-      this.decimalPrecision = 0;
-    } else {
-      this.decimalPrecision = ~~this.decimalPrecision;
+    if (this.inputElement.pattern) {
+      this.regex = new RegExp(this.inputElement.pattern);
     }
   }
 
@@ -68,22 +54,10 @@ export class DigitOnlyDirective {
       e.preventDefault();
     }
 
-    // check the precision
-    if (
-      this.hasDecimalPoint &&
-      this.decimalPrecision > 0 &&
-      this.precision >= this.decimalPrecision
-    ) {
-      const cursorPosition = this.inputElement.selectionStart;
-      const selection = this.getSelection();
-      const oldValue = this.inputElement.value;
-      const newValue = selection
-        ? oldValue.replace(selection, e.key)
-        : oldValue.substring(0, cursorPosition) +
-          e.key +
-          oldValue.substring(cursorPosition);
-      const regex = new RegExp(this.inputElement.pattern, 'g');
-      if (!regex.test(newValue)) {
+    // check the input pattern RegExp
+    if (this.regex) {
+      const newValue = this.forecastValue(e.key);
+      if (!this.regex.test(newValue)) {
         e.preventDefault();
       }
     }
@@ -167,5 +141,17 @@ export class DigitOnlyDirective {
       this.inputElement.selectionStart,
       this.inputElement.selectionEnd
     );
+  }
+
+  private forecastValue(key: string): string {
+    const selectionStart = this.inputElement.selectionStart;
+    const selectionEnd = this.inputElement.selectionEnd;
+    const oldValue = this.inputElement.value;
+    const selection = oldValue.substring(selectionStart, selectionEnd);
+    return selection
+      ? oldValue.replace(selection, key)
+      : oldValue.substring(0, selectionStart) +
+          key +
+          oldValue.substring(selectionStart);
   }
 }
