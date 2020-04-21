@@ -87,6 +87,19 @@
     placeholder="000"
   />
 
+  <label for="currency">Digit Only input only allows two decimal places</label>
+  <input
+    id="currency"
+    type="text"
+    name="currency"
+    inputmode="numeric"
+    pattern="^\d+(\.\d{1,2})?$"
+    placeholder="0.00"
+    digitOnly
+    decimal="true"
+  />
+  />
+
   <p>
     <a title="github" href="https://github.com/changhuixu/ngx-digit-only"
       >GitHub Repo</a

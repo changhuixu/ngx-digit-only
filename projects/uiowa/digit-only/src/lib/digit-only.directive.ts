@@ -1,10 +1,10 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[digitOnly]'
+  selector: '[digitOnly]',
 })
 export class DigitOnlyDirective {
-  private decimalCounter = 0;
+  private hasDecimalPoint = false;
   private navigationKeys = [
     'Backspace',
     'Delete',
@@ -17,14 +17,18 @@ export class DigitOnlyDirective {
     'ArrowRight',
     'Clear',
     'Copy',
-    'Paste'
+    'Paste',
   ];
   @Input() decimal? = false;
   @Input() decimalSeparator? = '.';
   inputElement: HTMLInputElement;
+  regex: RegExp;
 
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
+    if (this.inputElement.pattern) {
+      this.regex = new RegExp(this.inputElement.pattern);
+    }
   }
 
   @HostListener('keydown', ['$event'])
@@ -39,22 +43,29 @@ export class DigitOnlyDirective {
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
       (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (this.decimal &&
-        e.key === this.decimalSeparator &&
-        this.decimalCounter < 1) // Allow: only one decimal point
+      (this.decimal && e.key === this.decimalSeparator && !this.hasDecimalPoint) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
       return;
     }
+
     // Ensure that it is a number and stop the keypress
     if (e.key === ' ' || isNaN(Number(e.key))) {
       e.preventDefault();
+    }
+
+    // check the input pattern RegExp
+    if (this.regex) {
+      const newValue = this.forecastValue(e.key);
+      if (!this.regex.test(newValue)) {
+        e.preventDefault();
+      }
     }
   }
 
   @HostListener('keyup', ['$event'])
   onKeyUp(e: KeyboardEvent) {
-    this.setDecimalCounter();
+    this.updateDecimalPoint();
   }
 
   @HostListener('paste', ['$event'])
@@ -79,7 +90,7 @@ export class DigitOnlyDirective {
       const { selectionStart: start, selectionEnd: end } = this.inputElement;
       this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
     }
-    this.setDecimalCounter();
+    this.updateDecimalPoint();
   }
 
   private sanitizeInput(input: string): string {
@@ -101,7 +112,7 @@ export class DigitOnlyDirective {
   }
 
   private isValidDecimal(string: string): boolean {
-    if (this.decimalCounter == 0) {
+    if (!this.hasDecimalPoint) {
       return string.split(this.decimalSeparator).length <= 2;
     } else {
       // the input element already has a decimal separator
@@ -114,11 +125,15 @@ export class DigitOnlyDirective {
     }
   }
 
-  private setDecimalCounter(): void {
+  updateDecimalPoint(): void {
     if (this.decimal) {
-      this.decimalCounter =
-        this.inputElement.value.split(this.decimalSeparator).length - 1;
+      this.hasDecimalPoint =
+        this.inputElement.value.indexOf(this.decimalSeparator) > -1;
     }
+  }
+
+  get precision(): number {
+    return this.inputElement.value.split('.')[1].length || 0;
   }
 
   private getSelection(): string {
@@ -126,5 +141,17 @@ export class DigitOnlyDirective {
       this.inputElement.selectionStart,
       this.inputElement.selectionEnd
     );
+  }
+
+  private forecastValue(key: string): string {
+    const selectionStart = this.inputElement.selectionStart;
+    const selectionEnd = this.inputElement.selectionEnd;
+    const oldValue = this.inputElement.value;
+    const selection = oldValue.substring(selectionStart, selectionEnd);
+    return selection
+      ? oldValue.replace(selection, key)
+      : oldValue.substring(0, selectionStart) +
+          key +
+          oldValue.substring(selectionStart);
   }
 }

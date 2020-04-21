@@ -4,73 +4,96 @@ describe('Keyboard Typing', () => {
   });
 
   it('should accept number keys, not other symbols', () => {
-    const input = cy.get('#digit-only');
-    input.type('1s2d4d*(,.3').should('have.value', '1243');
-    input.clear();
+    cy.get('#digit-only')
+      .type('1s2d 4d*(,.3')
+      .should('have.value', '1243')
+      .clear();
   });
 
   it('should accept control keys', () => {
-    const input = cy.get('#digit-only');
-    input
+    cy.get('#digit-only')
       .type('124{leftarrow}3{rightarrow}')
       .type('{uparrow}{downarrow}5.{backspace}5')
-      .should('have.value', '12345');
-    input.clear();
+      .should('have.value', '12345')
+      .clear();
   });
 
   it('should accept a decimal point', () => {
-    const input = cy.get('#digit-only-decimal');
-    input.type('1s2d4d*(,.3').should('have.value', '124.3');
-    input.type('.3').should('have.value', '124.33');
-    input
+    cy.get('#digit-only-decimal')
+      .type('1s2d4d*(,.3')
+      .should('have.value', '124.3')
+      .type('.3')
+      .should('have.value', '124.33')
       .type('{leftarrow}{leftarrow}{leftarrow}.5')
-      .should('have.value', '1245.33');
-    input.clear();
+      .should('have.value', '1245.33')
+      .clear();
   });
 
   it('should accept a decimal point using comma', () => {
-    const input = cy.get('#digit-only-decimal-comma');
-    input.type('1s2d4d*(,.3').should('have.value', '124,3');
-    input.type('.3').should('have.value', '124,33');
-    input.type(',6').should('have.value', '124,336');
-    input
+    cy.get('#digit-only-decimal-comma')
+      .type('1s2d4d*(,.3')
+      .should('have.value', '124,3')
+      .type('.3')
+      .should('have.value', '124,33')
+      .type(',6')
+      .should('have.value', '124,336')
       .type('{leftarrow}{leftarrow}{leftarrow},5')
-      .should('have.value', '124,5336');
-    input
+      .should('have.value', '124,5336')
       .type('{leftarrow}{leftarrow}{del}{rightarrow}7,')
-      .should('have.value', '12457,336');
-    input.clear();
+      .should('have.value', '12457,336')
+      .clear();
   });
 
   it('should accept a decimal point using comma', () => {
-    const input = cy.get('#digit-only-decimal-comma');
-    input.type('1s2d4d*(,.3').should('have.value', '124,3');
-    input.type('.3').should('have.value', '124,33');
-    input.type(',6').should('have.value', '124,336');
-    input
+    cy.get('#digit-only-decimal-comma')
+      .type('1s2d4d*(,.3')
+      .should('have.value', '124,3')
+      .type('.3')
+      .should('have.value', '124,33')
+      .type(',6')
+      .should('have.value', '124,336')
       .type('{leftarrow}{leftarrow}{leftarrow},5')
-      .should('have.value', '124,5336');
-    input
+      .should('have.value', '124,5336')
       .type('{leftarrow}{leftarrow}{del}{rightarrow}7,')
-      .should('have.value', '12457,336');
-    input.clear();
+      .should('have.value', '12457,336')
+      .clear();
   });
 
   it('should know the max length: 1', () => {
-    const input = cy.get('#digit-only-with-max-length');
-    input.type('1s2d4d*(,.3').should('have.value', '124');
-    input.clear();
+    cy.get('#digit-only-with-max-length')
+      .type('1s2d4d*(,.3')
+      .should('have.value', '124')
+      .clear();
   });
 
   it('should know the max length: 2', () => {
-    const input = cy.get('#creditcard_number');
-    input.type('1s2d4d*(,.3').should('have.value', '124');
-    input.clear();
+    cy.get('#creditcard_number')
+      .type('1s2d4d*(,.3')
+      .should('have.value', '124')
+      .clear();
   });
 
   it('should know the max length: 3', () => {
-    const input = cy.get('#decimal-number');
-    input.type('1s2d4d*(,.35').should('have.value', '124.3');
-    input.clear();
+    cy.get('#decimal-number')
+      .type('1s2d4d*(,.35')
+      .should('have.value', '124.3')
+      .clear();
+  });
+
+  it('should know the decimal precision', () => {
+    cy.get('#currency')
+      .type('1s2d4d*(,.351')
+      .should('have.value', '124.35')
+      .type('{leftarrow}{leftarrow}1')
+      .should('have.value', '124.35')
+      .type('{leftarrow}{leftarrow}1')
+      .should('have.value', '1214.35')
+      .type('{backspace}{backspace}{leftarrow}8')
+      .should('have.value', '814.35')
+      .type('{rightarrow}{rightarrow}{rightarrow}1')
+      .should('have.value', '814.35')
+      .type('{rightarrow}{backspace}1')
+      .should('have.value', '814.15')
+      .clear();
   });
 });
