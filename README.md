@@ -6,6 +6,8 @@ Since **v1.1.0**, this directive accepts an attribute which indicates if the inp
 
 Since **v1.3.0**, this directive accepts an attribute for the separator for decimal numbers. By default, the separator is a `.`. You can set it to comma when needed.
 
+Since **v1.5.0**, this directive will check the input `pattern` attribute if set. See an example below about an input only allows decimal numbers with precision of 2.
+
 [![Build Status](https://img.shields.io/travis/changhuixu/ngx-digit-only/master.svg?label=Travis%20CI&style=flat-square)](https://travis-ci.org/changhuixu/ngx-digit-only)
 [![npm](https://img.shields.io/npm/v/@uiowa/digit-only.svg?style=flat-square)](https://www.npmjs.com/package/@uiowa/digit-only)
 
@@ -79,5 +81,17 @@ export class YourModule { }
   decimalSeparator=","
   placeholder="0,00"
   pattern="[0-9]+([,][0-9]+)?"
+/>
+
+// Digit Only input only allows two decimal places
+<input
+  id="currency"
+  type="text"
+  name="currency"
+  inputmode="numeric"
+  pattern="^\d+(\.\d{1,2})?$"
+  placeholder="0.00"
+  digitOnly
+  decimal="true"
 />
 ```
