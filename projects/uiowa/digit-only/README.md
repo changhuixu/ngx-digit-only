@@ -1,4 +1,6 @@
-# Angular DigitOnly Directive
+# Angular DigitOnly Directive and Mask Directive
+
+## `digitOnly` directive
 
 An Angular directive only allows [0-9] in the input box when typing, pasting or drag/dropping. This directive handles both Windows keyboard and Mac keyboard.
 
@@ -7,6 +9,14 @@ Since **v1.1.0**, this directive accepts an attribute which indicates if the inp
 Since **v1.3.0**, this directive accepts an attribute for the separator for decimal numbers. By default, the separator is a `.`. You can set it to comma when needed.
 
 Since **v1.5.0**, this directive will check the input `pattern` attribute if set. See an example below about an input only allows decimal numbers with precision of 2.
+
+## `mask` directive
+
+Since **v1.6.0**, the `mask` directive is added to this library. This directive checks the input `pattern` attribute if set.
+
+- See an example below about an input allows `##-####`.
+
+---
 
 [![Build Status](https://img.shields.io/travis/changhuixu/ngx-digit-only/master.svg?label=Travis%20CI&style=flat-square)](https://travis-ci.org/changhuixu/ngx-digit-only)
 [![npm](https://img.shields.io/npm/v/@uiowa/digit-only.svg?style=flat-square)](https://www.npmjs.com/package/@uiowa/digit-only)
@@ -18,7 +28,7 @@ Since **v1.5.0**, this directive will check the input `pattern` attribute if set
 ## Installation
 
 ```shell
-npm i -S @uiowa/digit-only
+npm i @uiowa/digit-only
 ```
 
 ## Usage
@@ -94,4 +104,20 @@ export class YourModule { }
   digitOnly
   decimal="true"
 />
+```
+
+### `mask` directive usage
+
+```html
+// input masked with pattern attribute: <code>##-####</code>
+<input
+  id="org-dept"
+  type="text"
+  pattern="^(\d{0,2}|\d{2}-\d{0,4})$"
+  name="org-dept"
+  title="org-dept"
+  placeholder="00-0000"
+  mask
+/>
+`
 ```
