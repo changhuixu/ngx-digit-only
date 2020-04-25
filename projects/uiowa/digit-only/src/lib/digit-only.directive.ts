@@ -1,9 +1,16 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 @Directive({
   selector: '[digitOnly]',
 })
-export class DigitOnlyDirective {
+export class DigitOnlyDirective implements OnChanges {
   private hasDecimalPoint = false;
   private navigationKeys = [
     'Backspace',
@@ -19,15 +26,20 @@ export class DigitOnlyDirective {
     'Copy',
     'Paste',
   ];
+  private regex: RegExp;
+  @Input() pattern?: string | RegExp;
   @Input() decimal? = false;
   @Input() decimalSeparator? = '.';
   inputElement: HTMLInputElement;
-  regex: RegExp;
+
 
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
-    if (this.inputElement.pattern) {
-      this.regex = new RegExp(this.inputElement.pattern);
+  }
+
+  ngOnChanges({ pattern }: SimpleChanges): void {
+    if (pattern) {
+      this.regex = this.pattern ? RegExp(this.pattern) : null;
     }
   }
 
@@ -151,7 +163,7 @@ export class DigitOnlyDirective {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-          key +
-          oldValue.substring(selectionStart);
+      key +
+      oldValue.substring(selectionStart);
   }
 }
