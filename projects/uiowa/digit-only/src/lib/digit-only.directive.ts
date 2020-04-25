@@ -1,9 +1,9 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[digitOnly]',
 })
-export class DigitOnlyDirective {
+export class DigitOnlyDirective implements OnChanges {
   private hasDecimalPoint = false;
   private navigationKeys = [
     'Backspace',
@@ -19,8 +19,10 @@ export class DigitOnlyDirective {
     'Copy',
     'Paste',
   ];
-  @Input() decimal? = false;
-  @Input() decimalSeparator? = '.';
+  @Input() decimal = false;
+  @Input() decimalSeparator = '.';
+  @Input() min = -Infinity;
+  @Input() max = Infinity;
   inputElement: HTMLInputElement;
   regex: RegExp;
 
@@ -28,6 +30,18 @@ export class DigitOnlyDirective {
     this.inputElement = el.nativeElement;
     if (this.inputElement.pattern) {
       this.regex = new RegExp(this.inputElement.pattern);
+    }
+  }
+
+  ngOnChanges({ min, max }: SimpleChanges): void {
+    if (min) {
+      const maybeMin = Number(this.min);
+      this.min = isNaN(maybeMin) ? -Infinity : maybeMin;
+    }
+
+    if (max) {
+      const maybeMax = Number(this.max);
+      this.max = isNaN(maybeMax) ? Infinity : maybeMax;
     }
   }
 
@@ -60,6 +74,12 @@ export class DigitOnlyDirective {
       if (!this.regex.test(newValue)) {
         e.preventDefault();
       }
+    }
+
+    const newValue = Number(this.forecastValue(e.key));
+
+    if (newValue > this.max || newValue < this.min) {
+      e.preventDefault();
     }
   }
 
