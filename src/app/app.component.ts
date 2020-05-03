@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   amount: string;
+  min = 0;
+  max = 10;
+
   watchAmountValue() {
     const value = Number(this.amount);
     this.amount = value.toFixed(2);

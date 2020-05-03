@@ -4,8 +4,16 @@
   <label for="digit-only">Digit Only input box</label>
   <input id="digit-only" type="text" digitOnly placeholder="000" />
 
-  <label for="digit-only">Digit Only input box between 0 and 100</label>
-  <input id="digit-only" type="text" digitOnly placeholder="000" max="100" min="0"  />
+  <label for="digit-only-min-max">Digit Only input box between 0 and 100</label>
+  <input id="digit-only-min-max" type="text" digitOnly placeholder="Between 0 and 100"  min="0" max="100"  />
+
+  <label for="digit-only-min-max-binding">Digit Only input box between {{ min }} and {{ max }}</label>
+  <input id="digit-only-min-max-binding" type="text" digitOnly placeholder="Between {{ min }} and {{ max }}" [min]="min" [max]="max" />
+
+  Min
+  <input id="min" type="text" digitOnly placeholder="Min" [(ngModel)]="min" />
+  Max
+  <input id="max" type="text" digitOnly placeholder="Max" [(ngModel)]="max" />
 
   <label for="digit-only-decimal">
     Digit Only input box that allows a <i>decimal point</i>
