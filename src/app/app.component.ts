@@ -7,7 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   amount: string;
-  pattern = '[0-9]+([\.][0-9]+)?';
+  decimalPattern = new RegExp('[0-9]+([\.][0-9]+)?');
+
+  pattern = '';
 
   watchAmountValue() {
     const value = Number(this.amount);
