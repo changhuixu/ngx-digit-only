@@ -31,6 +31,10 @@
 
   - See an example below about an input allows `##-####`.
 
+- **v1.7.0**: the `digitOnly` directive allows model binding to `min`, `max`, and `pattern` properties.
+
+  - See demo page for examples.
+
 ---
 
 ## Installation
