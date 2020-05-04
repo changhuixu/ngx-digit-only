@@ -26,10 +26,13 @@ export class DigitOnlyDirective implements OnChanges {
     'Copy',
     'Paste',
   ];
-  private regex: RegExp;
+
+  @Input() decimal = false;
+  @Input() decimalSeparator = '.';
+  @Input() min = -Infinity;
+  @Input() max = Infinity;
   @Input() pattern?: string | RegExp;
-  @Input() decimal? = false;
-  @Input() decimalSeparator? = '.';
+  private regex: RegExp;
   inputElement: HTMLInputElement;
 
 
@@ -37,9 +40,19 @@ export class DigitOnlyDirective implements OnChanges {
     this.inputElement = el.nativeElement;
   }
 
-  ngOnChanges({ pattern }: SimpleChanges): void {
+  ngOnChanges({ pattern,  min, max }: SimpleChanges): void {
     if (pattern) {
       this.regex = this.pattern ? RegExp(this.pattern) : null;
+    }
+    
+    if (min) {
+      const maybeMin = Number(this.min);
+      this.min = isNaN(maybeMin) ? -Infinity : maybeMin;
+    }
+
+    if (max) {
+      const maybeMax = Number(this.max);
+      this.max = isNaN(maybeMax) ? Infinity : maybeMax;
     }
   }
 
@@ -72,6 +85,12 @@ export class DigitOnlyDirective implements OnChanges {
       if (!this.regex.test(newValue)) {
         e.preventDefault();
       }
+    }
+
+    const newValue = Number(this.forecastValue(e.key));
+
+    if (newValue > this.max || newValue < this.min) {
+      e.preventDefault();
     }
   }
 
