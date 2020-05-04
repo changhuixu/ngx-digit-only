@@ -1,4 +1,11 @@
-import { Directive, ElementRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 @Directive({
   selector: '[digitOnly]',
@@ -19,21 +26,25 @@ export class DigitOnlyDirective implements OnChanges {
     'Copy',
     'Paste',
   ];
+
   @Input() decimal = false;
   @Input() decimalSeparator = '.';
   @Input() min = -Infinity;
   @Input() max = Infinity;
+  @Input() pattern?: string | RegExp;
+  private regex: RegExp;
   inputElement: HTMLInputElement;
-  regex: RegExp;
+
 
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
-    if (this.inputElement.pattern) {
-      this.regex = new RegExp(this.inputElement.pattern);
-    }
   }
 
-  ngOnChanges({ min, max }: SimpleChanges): void {
+  ngOnChanges({ pattern,  min, max }: SimpleChanges): void {
+    if (pattern) {
+      this.regex = this.pattern ? RegExp(this.pattern) : null;
+    }
+    
     if (min) {
       const maybeMin = Number(this.min);
       this.min = isNaN(maybeMin) ? -Infinity : maybeMin;
@@ -171,7 +182,7 @@ export class DigitOnlyDirective implements OnChanges {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-          key +
-          oldValue.substring(selectionStart);
+      key +
+      oldValue.substring(selectionStart);
   }
 }
