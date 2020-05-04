@@ -67,7 +67,7 @@ describe('Keyboard Typing', () => {
   });
 
   it('should know the max length: 2', () => {
-    cy.get('#creditcard_number')
+    cy.get('#credit-card-number')
       .type('1s2d4d*(,.3')
       .should('have.value', '124')
       .clear();

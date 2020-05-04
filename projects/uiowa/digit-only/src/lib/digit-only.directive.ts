@@ -35,16 +35,15 @@ export class DigitOnlyDirective implements OnChanges {
   private regex: RegExp;
   inputElement: HTMLInputElement;
 
-
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
   }
 
-  ngOnChanges({ pattern,  min, max }: SimpleChanges): void {
+  ngOnChanges({ pattern, min, max }: SimpleChanges): void {
     if (pattern) {
       this.regex = this.pattern ? RegExp(this.pattern) : null;
     }
-    
+
     if (min) {
       const maybeMin = Number(this.min);
       this.min = isNaN(maybeMin) ? -Infinity : maybeMin;
@@ -182,7 +181,7 @@ export class DigitOnlyDirective implements OnChanges {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-      key +
-      oldValue.substring(selectionStart);
+          key +
+          oldValue.substring(selectionStart);
   }
 }

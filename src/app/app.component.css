@@ -1,21 +1,31 @@
-:host {
-  display: flex;
-  justify-content: center;
-  font-size: 1rem;
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
 }
 
-demo {
-  width: 10rem;
+.tab a {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1rem;
+  transition: 0.3s;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-input {
-  padding: 0.5rem;
-  margin-bottom: 2rem;
-  width: 8rem;
+.tab a:hover {
+  background-color: #ddd;
 }
 
-label {
-  display: block;
-  text-align: left;
-  margin-bottom: 0.5rem;
+.tab a.active {
+  background-color: #ccc;
+}
+
+.content {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-top: none;
 }
