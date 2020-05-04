@@ -13,7 +13,7 @@
     digitOnly
     decimal="true"
     placeholder="0.00"
-    pattern="[0-9]+([\.][0-9]+)?"
+    [pattern]="decimalPattern"
   />
 
   <label for="digit-only-decimal-comma">
@@ -86,6 +86,25 @@
     title="3 digits code"
     placeholder="000"
   />
+  
+  <label for="pattern-binding">text input with pattern binding</label>
+  <input
+    id="pattern-binding"
+    type="text"
+    [pattern]="pattern"
+    name="pattern-binding"
+    title="3 digits code"
+    [placeholder]="pattern"
+    digitOnly
+  />
+  <input
+    id="change-pattern"
+    type="text"
+    [(ngModel)]="pattern"
+    name="change-pattern"
+    placeholder="Type your pattern"
+  />
+  
 
   <label for="currency">Digit Only input only allows two decimal places</label>
   <input
