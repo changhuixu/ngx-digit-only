@@ -39,17 +39,17 @@ export class DigitOnlyDirective implements OnChanges {
     this.inputElement = el.nativeElement;
   }
 
-  ngOnChanges({ pattern, min, max }: SimpleChanges): void {
-    if (pattern) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.pattern) {
       this.regex = this.pattern ? RegExp(this.pattern) : null;
     }
 
-    if (min) {
+    if (changes.min) {
       const maybeMin = Number(this.min);
       this.min = isNaN(maybeMin) ? -Infinity : maybeMin;
     }
 
-    if (max) {
+    if (changes.max) {
       const maybeMax = Number(this.max);
       this.max = isNaN(maybeMax) ? Infinity : maybeMax;
     }
