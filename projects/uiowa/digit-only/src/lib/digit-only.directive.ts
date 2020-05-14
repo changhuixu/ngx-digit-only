@@ -162,10 +162,6 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
-  get precision(): number {
-    return this.inputElement.value.split('.')[1].length || 0;
-  }
-
   private getSelection(): string {
     return this.inputElement.value.substring(
       this.inputElement.selectionStart,
