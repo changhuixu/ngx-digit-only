@@ -56,7 +56,7 @@ export class DigitOnlyDirective implements OnChanges {
   }
 
   @HostListener('keydown', ['$event'])
-  onKeyDown(e: KeyboardEvent) {
+  onKeyDown(e: KeyboardEvent): any {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
       (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
@@ -94,19 +94,27 @@ export class DigitOnlyDirective implements OnChanges {
   }
 
   @HostListener('keyup', ['$event'])
-  onKeyUp(e: KeyboardEvent) {
+  onKeyUp(e: KeyboardEvent): void {
     this.updateDecimalPoint();
   }
 
   @HostListener('paste', ['$event'])
-  onPaste(event: ClipboardEvent) {
-    const pastedInput: string = event.clipboardData.getData('text/plain');
+  onPaste(event: any): void {
+    let pastedInput: string;
+    if (window['clipboardData']) {
+      // Browser is IE
+      pastedInput = window['clipboardData'].getData('text');
+    } else if (event.clipboardData && event.clipboardData.getData) {
+      // Other browsers
+      pastedInput = event.clipboardData.getData('text/plain');
+    }
+
     this.pasteData(pastedInput);
     event.preventDefault();
   }
 
   @HostListener('drop', ['$event'])
-  onDrop(event: DragEvent) {
+  onDrop(event: DragEvent): void {
     const textData = event.dataTransfer.getData('text');
     this.inputElement.focus();
     this.pasteData(textData);
@@ -117,11 +125,42 @@ export class DigitOnlyDirective implements OnChanges {
     const sanitizedContent = this.sanitizeInput(pastedContent);
     const pasted = document.execCommand('insertText', false, sanitizedContent);
     if (!pasted) {
-      const { selectionStart: start, selectionEnd: end } = this.inputElement;
-      this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
+      if (this.inputElement.setRangeText) {
+        const { selectionStart: start, selectionEnd: end } = this.inputElement;
+        this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
+      } else {
+        // Browser does not support setRangeText, e.g. IE
+        this.insertAtCursor(this.inputElement, sanitizedContent);
+      }
     }
     this.updateDecimalPoint();
   }
+
+  // The following 2 methods were added from the below article for browsers that do not support setRangeText
+  // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position
+  private insertAtCursor(myField: HTMLInputElement, myValue: string): void {
+    const startPos = myField.selectionStart;
+    const endPos = myField.selectionEnd;
+
+    myField.value = myField.value.substring(0, startPos) + myValue
+      + myField.value.substring(endPos, myField.value.length);
+
+    const pos = startPos + myValue.length;
+    myField.focus();
+    myField.setSelectionRange(pos, pos);
+
+    this.triggerEvent(myField, 'input');
+  }
+
+  private triggerEvent(el: HTMLInputElement, type: string): void {
+    if ('createEvent' in document) {
+      // modern browsers, IE9+
+      const e = document.createEvent('HTMLEvents');
+      e.initEvent(type, false, true);
+      el.dispatchEvent(e);
+    }
+  }
+  // end stack overflow code
 
   private sanitizeInput(input: string): string {
     let result = '';
@@ -177,7 +216,7 @@ export class DigitOnlyDirective implements OnChanges {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-          key +
-          oldValue.substring(selectionStart);
+      key +
+      oldValue.substring(selectionStart);
   }
 }
