@@ -35,6 +35,8 @@
 
   - See demo page for examples.
 
+- **v1.8.0**: fix issue of pasting in IE and Edge for the `digitOnly` directive
+
 ---
 
 ## Installation
