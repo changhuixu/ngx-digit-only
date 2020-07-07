@@ -39,6 +39,8 @@
 
 - **v2.0.0**: add `tslib` v2.0 in the dependency, which is required by TypeScript 3.9 (as of Angular 10).
 
+- **v2.0.1**: For better international support, both `mask` and `digitOnly` directives are updated to use the `code` attribute instead of the `key` attribute in `KeyboardEvent`.
+
 ---
 
 ## Installation

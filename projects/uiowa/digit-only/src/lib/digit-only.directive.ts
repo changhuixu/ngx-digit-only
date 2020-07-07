@@ -59,14 +59,14 @@ export class DigitOnlyDirective implements OnChanges {
   onKeyDown(e: KeyboardEvent): any {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
-      (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
-      (e.key === 'c' && e.ctrlKey === true) || // Allow: Ctrl+C
-      (e.key === 'v' && e.ctrlKey === true) || // Allow: Ctrl+V
-      (e.key === 'x' && e.ctrlKey === true) || // Allow: Ctrl+X
-      (e.key === 'a' && e.metaKey === true) || // Allow: Cmd+A (Mac)
-      (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
-      (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
+      (e.code === 'KeyA' && e.ctrlKey === true) || // Allow: Ctrl+A
+      (e.code === 'KeyC' && e.ctrlKey === true) || // Allow: Ctrl+C
+      (e.code === 'KeyV' && e.ctrlKey === true) || // Allow: Ctrl+V
+      (e.code === 'KeyX' && e.ctrlKey === true) || // Allow: Ctrl+X
+      (e.code === 'KeyA' && e.metaKey === true) || // Allow: Cmd+A (Mac)
+      (e.code === 'KeyC' && e.metaKey === true) || // Allow: Cmd+C (Mac)
+      (e.code === 'KeyV' && e.metaKey === true) || // Allow: Cmd+V (Mac)
+      (e.code === 'KeyX' && e.metaKey === true) || // Allow: Cmd+X (Mac)
       (this.decimal && e.key === this.decimalSeparator && !this.hasDecimalPoint) // Allow: only one decimal point
     ) {
       // let it happen, don't do anything
@@ -142,8 +142,10 @@ export class DigitOnlyDirective implements OnChanges {
     const startPos = myField.selectionStart;
     const endPos = myField.selectionEnd;
 
-    myField.value = myField.value.substring(0, startPos) + myValue
-      + myField.value.substring(endPos, myField.value.length);
+    myField.value =
+      myField.value.substring(0, startPos) +
+      myValue +
+      myField.value.substring(endPos, myField.value.length);
 
     const pos = startPos + myValue.length;
     myField.focus();
@@ -216,7 +218,7 @@ export class DigitOnlyDirective implements OnChanges {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-      key +
-      oldValue.substring(selectionStart);
+          key +
+          oldValue.substring(selectionStart);
   }
 }
