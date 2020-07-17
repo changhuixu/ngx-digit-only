@@ -1,6 +1,6 @@
 {
   "name": "@uiowa/digit-only",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "author": "Changhui Xu <changhui-xu@uiowa.edu>",
   "description": "This package includes two Angular directives. The digitOnly directive only allows numbers in the input box when typing, pasting or drag/dropping. The mask directive checks the input pattern attribute.",
   "keywords": [

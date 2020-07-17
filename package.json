@@ -35,7 +35,7 @@
     "@angular/compiler-cli": "~9.1.4",
     "@angular/language-service": "~9.1.4",
     "@types/node": "^12.11.1",
-    "cypress": "^4.5.0",
+    "cypress": "^4.10.0",
     "ng-packagr": "^9.1.2",
     "start-server-and-test": "^1.11.0",
     "ts-node": "~8.3.0",
