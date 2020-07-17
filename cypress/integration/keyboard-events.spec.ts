@@ -96,4 +96,22 @@ describe('Keyboard Typing', () => {
       .should('have.value', '814.15')
       .clear();
   });
+
+  it('should correctly count decimal point when select input text', () => {
+    cy.get('#digit-only-decimal').type('1.35').should('have.value', '1.35');
+
+    cy.get<HTMLInputElement>('#digit-only-decimal').then(($el) => {
+      $el[0].setSelectionRange(0, 4); // should select 1.35
+      cy.get('#digit-only-decimal').type('.2').should('have.value', '.2');
+    });
+  });
+
+  it('should correctly count decimal point when select input text 2', () => {
+    cy.get('#dollar-amount').type('1.35').should('have.value', '1.35');
+
+    cy.get<HTMLInputElement>('#dollar-amount').then(($el) => {
+      $el[0].setSelectionRange(0, 4); // should select 1.35
+      cy.get('#dollar-amount').type('.2.5').should('have.value', '.25');
+    });
+  });
 });

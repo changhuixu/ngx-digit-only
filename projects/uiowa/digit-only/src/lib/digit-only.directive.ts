@@ -66,36 +66,44 @@ export class DigitOnlyDirective implements OnChanges {
       (e.key === 'a' && e.metaKey === true) || // Allow: Cmd+A (Mac)
       (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
       (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.key === 'x' && e.metaKey === true) || // Allow: Cmd+X (Mac)
-      (this.decimal && e.key === this.decimalSeparator && !this.hasDecimalPoint) // Allow: only one decimal point
+      (e.key === 'x' && e.metaKey === true) // Allow: Cmd+X (Mac)
     ) {
       // let it happen, don't do anything
       return;
     }
 
-    // Ensure that it is a number and stop the keypress
-    if (e.key === ' ' || isNaN(Number(e.key))) {
-      e.preventDefault();
-    }
+    let newValue = '';
 
-    // check the input pattern RegExp
-    if (this.regex) {
-      const newValue = this.forecastValue(e.key);
-      if (!this.regex.test(newValue)) {
+    if (this.decimal && e.key === this.decimalSeparator) {
+      newValue = this.forecastValue(e.key);
+      if (newValue.split(this.decimalSeparator).length > 2) { // has two or more decimal points
         e.preventDefault();
+        return;
+      } else {
+        this.hasDecimalPoint = newValue.indexOf(this.decimalSeparator) > -1;
+        return; // Allow: only one decimal point
       }
     }
 
-    const newValue = Number(this.forecastValue(e.key));
+    // Ensure that it is a number and stop the keypress
+    if (e.key === ' ' || isNaN(Number(e.key))) {
+      e.preventDefault();
+      return;
+    }
 
-    if (newValue > this.max || newValue < this.min) {
+    newValue = newValue || this.forecastValue(e.key);
+    // check the input pattern RegExp
+    if (this.regex) {
+      if (!this.regex.test(newValue)) {
+        e.preventDefault();
+        return;
+      }
+    }
+
+    const newNumber = Number(newValue);
+    if (newNumber > this.max || newNumber < this.min) {
       e.preventDefault();
     }
-  }
-
-  @HostListener('keyup', ['$event'])
-  onKeyUp(e: KeyboardEvent): void {
-    this.updateDecimalPoint();
   }
 
   @HostListener('paste', ['$event'])
@@ -133,7 +141,10 @@ export class DigitOnlyDirective implements OnChanges {
         this.insertAtCursor(this.inputElement, sanitizedContent);
       }
     }
-    this.updateDecimalPoint();
+    if (this.decimal) {
+      this.hasDecimalPoint =
+        this.inputElement.value.indexOf(this.decimalSeparator) > -1;
+    }
   }
 
   // The following 2 methods were added from the below article for browsers that do not support setRangeText
@@ -142,8 +153,10 @@ export class DigitOnlyDirective implements OnChanges {
     const startPos = myField.selectionStart;
     const endPos = myField.selectionEnd;
 
-    myField.value = myField.value.substring(0, startPos) + myValue
-      + myField.value.substring(endPos, myField.value.length);
+    myField.value =
+      myField.value.substring(0, startPos) +
+      myValue +
+      myField.value.substring(endPos, myField.value.length);
 
     const pos = startPos + myValue.length;
     myField.focus();
@@ -194,13 +207,6 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
-  updateDecimalPoint(): void {
-    if (this.decimal) {
-      this.hasDecimalPoint =
-        this.inputElement.value.indexOf(this.decimalSeparator) > -1;
-    }
-  }
-
   private getSelection(): string {
     return this.inputElement.value.substring(
       this.inputElement.selectionStart,
@@ -216,7 +222,7 @@ export class DigitOnlyDirective implements OnChanges {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-      key +
-      oldValue.substring(selectionStart);
+          key +
+          oldValue.substring(selectionStart);
   }
 }
