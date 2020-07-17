@@ -35,9 +35,11 @@
 
   - See demo page for examples.
 
-- **v1.8.0**: fix issue of pasting in IE and Edge for the `digitOnly` directive
+- **v1.8.0**: fix an issue ([#38]) when pasting in IE and Edge for the `digitOnly` directive
 
 - **v2.0.0**: add `tslib` v2.0 in the dependency, which is required by TypeScript 3.9 (as of Angular 10).
+
+- **v2.1.0**(**v1.9.0**): fix an issue ([#39]) when typing decimal numbers for the `digitOnly` directive
 
 ---
 

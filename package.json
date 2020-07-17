@@ -38,8 +38,8 @@
     "cypress": "^4.10.0",
     "ng-packagr": "^10.0.2",
     "start-server-and-test": "^1.11.2",
-    "ts-node": "~8.10.2",
-    "tslint": "^6.1.2",
-    "typescript": "^3.9.7"
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "typescript": "~3.9.6"
   }
 }
