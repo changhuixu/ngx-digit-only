@@ -124,6 +124,39 @@ describe('Copy & Paste', () => {
       cy.get('#digit-only-decimal').should('have.value', '1234.81');
     });
 
+    cy.get<HTMLInputElement>('#digit-only-decimal').then(($el) => {
+      $el[0].setSelectionRange(0, 7); // should select 1234.81
+
+      dt.setData('text/plain', '.4');
+      $el[0].dispatchEvent(pasteEvent);
+      cy.get('#digit-only-decimal').should('have.value', '.4');
+    });
+
+    cy.get('#digit-only-decimal').clear();
+  });
+
+  it.only('s', ()=> {
+    const dt = new DataTransfer();
+    dt.setData('text/plain', 'abc1.0s.1');
+    const pasteEvent = new ClipboardEvent('paste', {
+      clipboardData: dt,
+      bubbles: true,
+      cancelable: true,
+    });
+
+    cy.get('#digit-only-decimal').type('.4').should('have.value', '.4');
+
+    cy.get<HTMLInputElement>('#digit-only-decimal').then(($el) => {
+      $el[0].setSelectionRange(0, 2); // should select .4
+      cy.get('#digit-only-decimal').type('.2').should('have.value', '.2');
+    });
+
+    cy.get<HTMLInputElement>('#digit-only-decimal').then(($el) => {
+      dt.setData('text/plain', '.3');
+      $el[0].dispatchEvent(pasteEvent);
+      cy.get('#digit-only-decimal').should('have.value', '.23'); // the second decimal point should not be accepted
+    });
+
     cy.get('#digit-only-decimal').clear();
   });
 

@@ -113,6 +113,21 @@
       digitOnly
       decimal="true"
     />
+
+    <label for="dollar-amount">
+      Digit Only input only allows two decimal places and allow starting with a
+      decimal point
+    </label>
+    <input
+      id="dollar-amount"
+      type="text"
+      name="dollar-amount"
+      inputmode="numeric"
+      pattern="^(?=.*\d)\d*(\.\d{1,2})?$"
+      placeholder="0.00"
+      digitOnly
+      decimal="true"
+    />
   </section>
 
   <section>
