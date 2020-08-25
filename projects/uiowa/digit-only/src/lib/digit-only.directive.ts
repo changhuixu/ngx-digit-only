@@ -59,14 +59,14 @@ export class DigitOnlyDirective implements OnChanges {
   onKeyDown(e: KeyboardEvent): any {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
-      (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
-      (e.key === 'c' && e.ctrlKey === true) || // Allow: Ctrl+C
-      (e.key === 'v' && e.ctrlKey === true) || // Allow: Ctrl+V
-      (e.key === 'x' && e.ctrlKey === true) || // Allow: Ctrl+X
-      (e.key === 'a' && e.metaKey === true) || // Allow: Cmd+A (Mac)
-      (e.key === 'c' && e.metaKey === true) || // Allow: Cmd+C (Mac)
-      (e.key === 'v' && e.metaKey === true) || // Allow: Cmd+V (Mac)
-      (e.key === 'x' && e.metaKey === true) // Allow: Cmd+X (Mac)
+      ((e.key === 'a' || e.code === 'KeyA') && e.ctrlKey === true) || // Allow: Ctrl+A
+      ((e.key === 'c' || e.code === 'KeyC') && e.ctrlKey === true) || // Allow: Ctrl+C
+      ((e.key === 'v' || e.code === 'KeyV') && e.ctrlKey === true) || // Allow: Ctrl+V
+      ((e.key === 'x' || e.code === 'KeyX') && e.ctrlKey === true) || // Allow: Ctrl+X
+      ((e.key === 'a' || e.code === 'KeyA') && e.metaKey === true) || // Allow: Cmd+A (Mac)
+      ((e.key === 'c' || e.code === 'KeyC') && e.metaKey === true) || // Allow: Cmd+C (Mac)
+      ((e.key === 'v' || e.code === 'KeyV') && e.metaKey === true) || // Allow: Cmd+V (Mac)
+      ((e.key === 'x' || e.code === 'KeyX') && e.metaKey === true) // Allow: Cmd+X (Mac)
     ) {
       // let it happen, don't do anything
       return;
@@ -76,7 +76,8 @@ export class DigitOnlyDirective implements OnChanges {
 
     if (this.decimal && e.key === this.decimalSeparator) {
       newValue = this.forecastValue(e.key);
-      if (newValue.split(this.decimalSeparator).length > 2) { // has two or more decimal points
+      if (newValue.split(this.decimalSeparator).length > 2) {
+        // has two or more decimal points
         e.preventDefault();
         return;
       } else {
