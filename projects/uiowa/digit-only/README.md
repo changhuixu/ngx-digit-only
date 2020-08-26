@@ -41,6 +41,8 @@
 
 - **v2.1.0**(**v1.9.0**): fix an issue ([#39]) when typing decimal numbers for the `digitOnly` directive
 
+- **v2.2.0**: fix an issue ([#35]): for better international support, both `mask` and `digitOnly` directives now also check the `code` attribute in `KeyboardEvent`.
+
 ---
 
 ## Installation
