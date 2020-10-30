@@ -137,6 +137,11 @@ export class DigitOnlyDirective implements OnChanges {
       if (this.inputElement.setRangeText) {
         const { selectionStart: start, selectionEnd: end } = this.inputElement;
         this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
+        // Angular's Reactive Form relies on "input" event, but on Firefox, the setRangeText method doesn't trigger it
+        // so we have to trigger it ourself.
+        if (typeof window['InstallTrigger'] !== 'undefined') {
+          this.inputElement.dispatchEvent(new Event('input', { cancelable: true }));
+        }
       } else {
         // Browser does not support setRangeText, e.g. IE
         this.insertAtCursor(this.inputElement, sanitizedContent);
@@ -223,7 +228,7 @@ export class DigitOnlyDirective implements OnChanges {
     return selection
       ? oldValue.replace(selection, key)
       : oldValue.substring(0, selectionStart) +
-          key +
-          oldValue.substring(selectionStart);
+      key +
+      oldValue.substring(selectionStart);
   }
 }
