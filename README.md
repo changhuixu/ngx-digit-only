@@ -17,31 +17,33 @@
 
 ## CHANGELOG
 
-- **v1.1.0**: this directive accepts an attribute which indicates if the input number allows a decimal point.
+- **v2.2.1**: `digitOnly` directive now dispatches an `input` event when paste in Firefox.
 
-- **v1.3.0**: this directive accepts an attribute for the separator for decimal numbers.
+- **v2.2.0**: fix an issue ([#35]): for better international support, both `mask` and `digitOnly` directives now also check the `code` attribute in `KeyboardEvent`.
 
-  - By default, the separator is a `.`. You can set it to comma when needed.
+- **v2.1.0**(**v1.9.0**): fix an issue ([#39]) when typing decimal numbers for the `digitOnly` directive
 
-- **v1.5.0**: this directive checks the input `pattern` attribute if set.
+- **v2.0.0**: add `tslib` v2.0 in the dependency, which is required by TypeScript 3.9 (as of Angular 10).
 
-  - See an example below about an input only allows decimal numbers with precision of 2.
-
-- **v1.6.0**: the `mask` directive is added to this library.
-
-  - See an example below about an input allows `##-####`.
+- **v1.8.0**: fix an issue ([#38]) when pasting in IE and Edge for the `digitOnly` directive
 
 - **v1.7.0**: the `digitOnly` directive allows model binding to `min`, `max`, and `pattern` properties.
 
   - See demo page for examples.
 
-- **v1.8.0**: fix an issue ([#38]) when pasting in IE and Edge for the `digitOnly` directive
+- **v1.6.0**: the `mask` directive is added to this library.
 
-- **v2.0.0**: add `tslib` v2.0 in the dependency, which is required by TypeScript 3.9 (as of Angular 10).
+  - See an example below about an input allows `##-####`.
 
-- **v2.1.0**(**v1.9.0**): fix an issue ([#39]) when typing decimal numbers for the `digitOnly` directive
+- **v1.5.0**: this directive checks the input `pattern` attribute if set.
 
-- **v2.2.0**: fix an issue ([#35]): for better international support, both `mask` and `digitOnly` directives now also check the `code` attribute in `KeyboardEvent`.
+  - See an example below about an input only allows decimal numbers with precision of 2.
+
+- **v1.3.0**: this directive accepts an attribute for the separator for decimal numbers.
+
+  - By default, the separator is a `.`. You can set it to comma when needed.
+
+- **v1.1.0**: this directive accepts an attribute which indicates if the input number allows a decimal point.
 
 ---
 
