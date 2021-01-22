@@ -9,7 +9,7 @@
 
 - [x] **input `digitOnly` directive**
 
-  An Angular directive only allows [0-9] in the input box when typing, pasting or drag/dropping. This directive handles both Windows keyboard and Mac keyboard.
+  An Angular directive only allows [0-9] in the input box when typing, pasting or drag/dropping. This directive handles both Windows keyboard and Mac keyboard. This directive works with `input type="text"`, not `input type="number"`.
 
 - [x] **input `mask` directive**
 
