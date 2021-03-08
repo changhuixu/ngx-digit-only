@@ -55,6 +55,17 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
+  @HostListener('beforeinput', ['$event'])
+  onBeforeInput(e: InputEvent): any {
+    if (isNaN(Number(e.data))) {
+      if(e.data === this.decimalSeparator) {
+        return; // go on
+      }
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent): any {
     if (
