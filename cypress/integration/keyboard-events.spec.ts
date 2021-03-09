@@ -18,6 +18,13 @@ describe('Keyboard Typing', () => {
       .clear();
   });
 
+  it('should prevent dead keys', () => {
+    cy.get('#digit-only')
+        .type('~~ ~! ~@ ~^')
+        .should('have.value', '')
+        .clear();
+  });
+
   it('should accept a decimal point', () => {
     cy.get('#digit-only-decimal')
       .type('1s2d4d*(,.3')

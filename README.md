@@ -17,15 +17,17 @@
 
 ## CHANGELOG
 
+- **v2.2.2**: fix an issue ([#28](/../../issues/28)) to prevent [dead keys](https://en.wikipedia.org/wiki/Dead_key) in the `digitOnly` directive.
+
 - **v2.2.1**: `digitOnly` directive now dispatches an `input` event when paste in Firefox.
 
-- **v2.2.0**: fix an issue ([#35]): for better international support, both `mask` and `digitOnly` directives now also check the `code` attribute in `KeyboardEvent`.
+- **v2.2.0**: fix an issue ([#35](/../../issues/35)): for better international support, both `mask` and `digitOnly` directives now also check the `code` attribute in `KeyboardEvent`.
 
-- **v2.1.0**(**v1.9.0**): fix an issue ([#39]) when typing decimal numbers for the `digitOnly` directive
+- **v2.1.0**(**v1.9.0**): fix an issue ([#39](/../../issues/39)) when typing decimal numbers for the `digitOnly` directive
 
 - **v2.0.0**: add `tslib` v2.0 in the dependency, which is required by TypeScript 3.9 (as of Angular 10).
 
-- **v1.8.0**: fix an issue ([#38]) when pasting in IE and Edge for the `digitOnly` directive
+- **v1.8.0**: fix an issue ([#38](/../../issues/38)) when pasting in IE and Edge for the `digitOnly` directive
 
 - **v1.7.0**: the `digitOnly` directive allows model binding to `min`, `max`, and `pattern` properties.
 
