@@ -157,6 +157,11 @@ export class DigitOnlyDirective implements OnChanges {
 
   private pasteData(pastedContent: string): void {
     const sanitizedContent = this.sanitizeInput(pastedContent);
+    if (sanitizedContent.includes(this.negativeSign)
+        && this.hasNegativeSign
+        && !this.getSelection().includes(this.negativeSign)) {
+      return;
+    }
     const pasted = document.execCommand('insertText', false, sanitizedContent);
     if (!pasted) {
       if (this.inputElement.setRangeText) {
@@ -227,7 +232,7 @@ export class DigitOnlyDirective implements OnChanges {
   }
 
   private getNegativeSignRegExp() : string {
-    return !this.hasNegativeSign ? `(?!^${this.negativeSign})` : '';
+    return !this.hasNegativeSign || this.getSelection().includes(this.negativeSign) ? `(?!^${this.negativeSign})` : '';
   }
 
   private isValidDecimal(string: string): boolean {
@@ -255,11 +260,8 @@ export class DigitOnlyDirective implements OnChanges {
     const selectionStart = this.inputElement.selectionStart;
     const selectionEnd = this.inputElement.selectionEnd;
     const oldValue = this.inputElement.value;
-    const selection = oldValue.substring(selectionStart, selectionEnd);
-    return selection
-      ? oldValue.replace(selection, key)
-      : oldValue.substring(0, selectionStart) +
-      key +
-      oldValue.substring(selectionStart);
+    return oldValue.substring(0, selectionStart) +
+        key +
+        oldValue.substring(selectionEnd);
   }
 }
