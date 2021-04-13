@@ -1,9 +1,9 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, AfterViewInit } from '@angular/core';
 
 @Directive({
   selector: '[mask]',
 })
-export class MaskDirective {
+export class MaskDirective implements OnInit, AfterViewInit {
   private navigationKeys = [
     'Backspace',
     'Delete',
@@ -24,6 +24,20 @@ export class MaskDirective {
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
     this.regex = new RegExp(this.inputElement.pattern);
+  }
+  
+  ngOnInit(): void {
+    if (!this.regex) {
+      console.log('OnInit: regex was null or undefined. Creating new using pattern: ' + this.inputElement.pattern);
+      this.regex = new RegExp(this.inputElement.pattern);
+    }
+  }
+  
+  ngAfterViewInit(): void {
+    if (!this.regex) {
+      console.log('OnInit: regex was null or undefined. Creating new using pattern: ' + this.inputElement.pattern);
+      this.regex = new RegExp(this.inputElement.pattern);
+    }
   }
 
   @HostListener('keydown', ['$event'])
