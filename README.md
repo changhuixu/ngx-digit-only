@@ -17,6 +17,8 @@
 
 ## CHANGELOG
 
+- **v2.2.3**: fix an issue ([#50](/../../issues/50)) in the `mask` directive: support dynamic pattern attribute binding.
+
 - **v2.2.2**: fix an issue ([#28](/../../issues/28)) to prevent [dead keys](https://en.wikipedia.org/wiki/Dead_key) in the `digitOnly` directive.
 
 - **v2.2.1**: `digitOnly` directive now dispatches an `input` event when paste in Firefox.
