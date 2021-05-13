@@ -19,7 +19,7 @@ export class MaskDirective implements OnInit {
     'Paste',
   ];
   inputElement: HTMLInputElement;
-  regex: RegExp;
+  regex: RegExp = new RegExp('');
 
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;
@@ -53,8 +53,8 @@ export class MaskDirective implements OnInit {
   }
 
   private forecastValue(key: string): string {
-    const selectionStart = this.inputElement.selectionStart;
-    const selectionEnd = this.inputElement.selectionEnd;
+    const selectionStart = this.inputElement.selectionStart ?? 0;
+    const selectionEnd = this.inputElement.selectionEnd ?? 0;
     const oldValue = this.inputElement.value;
     const selection = oldValue.substring(selectionStart, selectionEnd);
     return selection
