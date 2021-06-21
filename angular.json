@@ -29,6 +29,9 @@
         },
         "@schematics/angular:service": {
           "skipTests": true
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "",
@@ -43,51 +46,54 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ngx-digit-only:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "ngx-digit-only:build:production"
+            },
+            "development": {
+              "browserTarget": "ngx-digit-only:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -106,23 +112,24 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/uiowa/digit-only/tsconfig.lib.json",
             "project": "projects/uiowa/digit-only/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "projects/uiowa/digit-only/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/uiowa/digit-only/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": [
-              "projects/uiowa/digit-only/tsconfig.lib.json",
-              "projects/uiowa/digit-only/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "main": "projects/uiowa/digit-only/src/test.ts",
+            "tsConfig": "projects/uiowa/digit-only/tsconfig.spec.json",
+            "karmaConfig": "projects/uiowa/digit-only/karma.conf.js"
           }
         }
       }

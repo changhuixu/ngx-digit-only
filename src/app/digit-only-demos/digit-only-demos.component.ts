@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./digit-only-demos.component.css'],
 })
 export class DigitOnlyDemosComponent implements OnInit {
-  amount: string;
+  amount: string = '';
   min = 0;
   max = 10;
   decimalPattern = new RegExp('[0-9]+([.][0-9]+)?');
