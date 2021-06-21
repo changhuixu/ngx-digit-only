@@ -274,18 +274,18 @@ describe('Copy & Paste', () => {
       cancelable: true,
     });
 
-    cy.get('#digit-only').clear();
+    cy.get('#negative-digit-only').clear();
 
-    cy.get('#digit-only').then(($el) => {
+    cy.get('#negative-digit-only').then(($el) => {
       $el[0].dispatchEvent(pasteEvent);
-      cy.get('#digit-only').should('have.value', '-123');
+      cy.get('#negative-digit-only').should('have.value', '-123');
     });
 
-    cy.get('#digit-only').then(($el) => {
+    cy.get('#negative-digit-only').then(($el) => {
       $el[0].dispatchEvent(pasteEvent);
-      cy.get('#digit-only').should('have.value', '-123123');
+      cy.get('#negative-digit-only').should('have.value', '-123123');
     });
 
-    cy.get('#digit-only').clear();
+    cy.get('#negative-digit-only').clear();
   });
 });

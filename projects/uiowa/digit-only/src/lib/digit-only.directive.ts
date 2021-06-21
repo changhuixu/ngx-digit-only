@@ -30,6 +30,7 @@ export class DigitOnlyDirective implements OnChanges {
 
   @Input() decimal = false;
   @Input() decimalSeparator = '.';
+  @Input() allowNegatives= false;
   @Input() negativeSign = '-';
   @Input() min = -Infinity;
   @Input() max = Infinity;
@@ -61,7 +62,7 @@ export class DigitOnlyDirective implements OnChanges {
   onBeforeInput(e: InputEvent): any {
     if (isNaN(Number(e.data))) {
       if (e.data === this.decimalSeparator
-          || e.data === this.negativeSign) {
+          || (e.data === this.negativeSign && this.allowNegatives)) {
         return; // go on
       }
       e.preventDefault();
@@ -100,7 +101,7 @@ export class DigitOnlyDirective implements OnChanges {
       }
     }
 
-    if (e.key === this.negativeSign && this.min < 0) {
+    if (e.key === this.negativeSign && this.allowNegatives) {
       newValue = this.forecastValue(e.key);
       if (newValue.charAt(0) !== this.negativeSign || newValue.split(this.negativeSign).length > 2) {
         e.preventDefault();
@@ -244,7 +245,7 @@ export class DigitOnlyDirective implements OnChanges {
   }
 
   private getNegativeSignRegExp() : string {
-    return !this.hasNegativeSign || this.getSelection().includes(this.negativeSign) ? `(?!^${this.negativeSign})` : '';
+    return this.allowNegatives && (!this.hasNegativeSign || this.getSelection().includes(this.negativeSign)) ? `(?!^${this.negativeSign})` : '';
   }
 
   private isValidDecimal(string: string): boolean {
