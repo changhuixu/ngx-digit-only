@@ -109,7 +109,7 @@ describe('Keyboard Typing', () => {
 
     cy.get<HTMLInputElement>('#digit-only-decimal').then(($el) => {
       $el[0].setSelectionRange(0, 4); // should select 1.35
-      cy.get('#digit-only-decimal').type('.2').should('have.value', '.2');
+      cy.get('#digit-only-decimal').type('-.2').should('have.value', '.2');
     });
   });
 

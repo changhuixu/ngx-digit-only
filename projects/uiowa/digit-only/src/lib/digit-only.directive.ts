@@ -34,7 +34,7 @@ export class DigitOnlyDirective implements OnChanges {
   @Input() min = -Infinity;
   @Input() max = Infinity;
   @Input() pattern?: string | RegExp;
-  private regex: RegExp;
+  private regex: RegExp | null = null;
   inputElement: HTMLInputElement;
 
   constructor(public el: ElementRef) {
@@ -134,10 +134,12 @@ export class DigitOnlyDirective implements OnChanges {
 
   @HostListener('paste', ['$event'])
   onPaste(event: any): void {
-    let pastedInput: string;
-    if (window['clipboardData']) {
+    let pastedInput: string = '';
+    if ((window as { [key: string]: any })['clipboardData']) {
       // Browser is IE
-      pastedInput = window['clipboardData'].getData('text');
+      pastedInput = (window as { [key: string]: any })['clipboardData'].getData(
+        'text'
+      );
     } else if (event.clipboardData && event.clipboardData.getData) {
       // Other browsers
       pastedInput = event.clipboardData.getData('text/plain');
@@ -149,7 +151,7 @@ export class DigitOnlyDirective implements OnChanges {
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent): void {
-    const textData = event.dataTransfer.getData('text');
+    const textData = event.dataTransfer?.getData('text') ?? '';
     this.inputElement.focus();
     this.pasteData(textData);
     event.preventDefault();
@@ -166,11 +168,21 @@ export class DigitOnlyDirective implements OnChanges {
     if (!pasted) {
       if (this.inputElement.setRangeText) {
         const { selectionStart: start, selectionEnd: end } = this.inputElement;
-        this.inputElement.setRangeText(sanitizedContent, start, end, 'end');
+        this.inputElement.setRangeText(
+          sanitizedContent,
+          start ?? 0,
+          end ?? 0,
+          'end'
+        );
         // Angular's Reactive Form relies on "input" event, but on Firefox, the setRangeText method doesn't trigger it
         // so we have to trigger it ourself.
-        if (typeof window['InstallTrigger'] !== 'undefined') {
-          this.inputElement.dispatchEvent(new Event('input', { cancelable: true }));
+        if (
+          typeof (window as { [key: string]: any })['InstallTrigger'] !==
+          'undefined'
+        ) {
+          this.inputElement.dispatchEvent(
+            new Event('input', { cancelable: true })
+          );
         }
       } else {
         // Browser does not support setRangeText, e.g. IE
@@ -187,8 +199,8 @@ export class DigitOnlyDirective implements OnChanges {
   // The following 2 methods were added from the below article for browsers that do not support setRangeText
   // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position
   private insertAtCursor(myField: HTMLInputElement, myValue: string): void {
-    const startPos = myField.selectionStart;
-    const endPos = myField.selectionEnd;
+    const startPos = myField.selectionStart ?? 0;
+    const endPos = myField.selectionEnd ?? 0;
 
     myField.value =
       myField.value.substring(0, startPos) +
@@ -251,14 +263,14 @@ export class DigitOnlyDirective implements OnChanges {
 
   private getSelection(): string {
     return this.inputElement.value.substring(
-      this.inputElement.selectionStart,
-      this.inputElement.selectionEnd
+      this.inputElement.selectionStart ?? 0,
+      this.inputElement.selectionEnd ?? 0
     );
   }
 
   private forecastValue(key: string): string {
-    const selectionStart = this.inputElement.selectionStart;
-    const selectionEnd = this.inputElement.selectionEnd;
+    const selectionStart = this.inputElement.selectionStart ?? 0;
+    const selectionEnd = this.inputElement.selectionEnd ?? 0;
     const oldValue = this.inputElement.value;
     return oldValue.substring(0, selectionStart) +
         key +

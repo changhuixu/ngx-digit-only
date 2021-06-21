@@ -28,8 +28,8 @@
       type="text"
       digitOnly
       placeholder="Between 0 and 100"
-      min="0"
-      max="100"
+      [min]="0"
+      [max]="100"
     />
 
     <label for="digit-only-min-max-binding">
@@ -59,7 +59,7 @@
       id="digit-only-decimal"
       type="text"
       digitOnly
-      decimal="true"
+      [decimal]="true"
       placeholder="0.00"
       [pattern]="decimalPattern"
     />
@@ -72,7 +72,7 @@
       id="digit-only-decimal-comma"
       type="text"
       digitOnly
-      decimal="true"
+      [decimal]="true"
       decimalSeparator=","
       placeholder="0,00"
       pattern="[0-9]+([,][0-9]+)?"
@@ -111,7 +111,7 @@
       pattern="^\d+(\.\d{1,2})?$"
       placeholder="0.00"
       digitOnly
-      decimal="true"
+      [decimal]="true"
     />
 
     <label for="dollar-amount">
@@ -126,7 +126,7 @@
       pattern="^(?=.*\d)\d*(\.\d{1,2})?$"
       placeholder="0.00"
       digitOnly
-      decimal="true"
+      [decimal]="true"
     />
   </section>
 
@@ -161,7 +161,7 @@
       inputmode="numeric"
       pattern="[0-9]+([\.][0-9]+)?"
       digitOnly
-      decimal="true"
+      [decimal]="true"
     />
   </section>
 
