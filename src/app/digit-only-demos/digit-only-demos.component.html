@@ -16,9 +16,17 @@
       placeholder="000"
       maxlength="3"
     />
-    
-    <label for="negative-digit-only">Digit Only input box that can be negative</label>
-    <input id="negative-digit-only" type="text" digitOnly [allowNegatives]="true" placeholder="-123"/>
+
+    <label for="negative-digit-only">
+      Digit Only input box that can be negative
+    </label>
+    <input
+      id="negative-digit-only"
+      type="text"
+      digitOnly
+      [allowNegatives]="true"
+      placeholder="-123"
+    />
   </section>
 
   <section>
@@ -100,7 +108,7 @@
       [(ngModel)]="pattern"
       name="change-pattern"
       placeholder="Type your pattern"
-      style="margin-left: 0.5rem;"
+      style="margin-left: 0.5rem"
     />
 
     <label for="currency">
@@ -183,6 +191,20 @@
       name="code"
       title="3 digits code"
       placeholder="000"
+    />
+  </section>
+
+  <section>
+    <h3><code>digitOnly</code> directive</h3>
+    <label for="digit-only-disable-paste">
+      Digit Only input box (disable paste)
+    </label>
+    <input
+      id="digit-only-disable-paste"
+      type="text"
+      digitOnly
+      [allowPaste]="false"
+      placeholder="00000"
     />
   </section>
 </div>

@@ -31,6 +31,7 @@ export class DigitOnlyDirective implements OnChanges {
   @Input() decimal = false;
   @Input() decimalSeparator = '.';
   @Input() allowNegatives= false;
+  @Input() allowPaste = true;
   @Input() negativeSign = '-';
   @Input() min = -Infinity;
   @Input() max = Infinity;
@@ -132,21 +133,29 @@ export class DigitOnlyDirective implements OnChanges {
       e.preventDefault();
     }
   }
-
+  
   @HostListener('paste', ['$event'])
   onPaste(event: any): void {
-    let pastedInput: string;
-    if (window['clipboardData']) {
-      // Browser is IE
-      pastedInput = window['clipboardData'].getData('text');
-    } else if (event.clipboardData && event.clipboardData.getData) {
-      // Other browsers
-      pastedInput = event.clipboardData.getData('text/plain');
-    }
+    if (this.allowPaste === true) {
+      let pastedInput: string = '';
+      if ((window as { [key: string]: any })['clipboardData']) {
+        // Browser is IE
+        pastedInput = (window as { [key: string]: any })['clipboardData'].getData(
+          'text'
+        );
+      } else if (event.clipboardData && event.clipboardData.getData) {
+        // Other browsers
+        pastedInput = event.clipboardData.getData('text/plain');
+      }
 
-    this.pasteData(pastedInput);
-    event.preventDefault();
+      this.pasteData(pastedInput);
+      event.preventDefault();
+    } else {  // this prevents the paste 
+      event.preventDefault();
+      event.stopPropagation();
+    }
   }
+  
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent): void {
