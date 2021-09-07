@@ -135,7 +135,7 @@ describe('Copy & Paste', () => {
     cy.get('#digit-only-decimal').clear();
   });
 
-  it('s', () => {
+  it('should allow only one decimal place in a decimal input element', () => {
     const dt = new DataTransfer();
     dt.setData('text/plain', 'abc1.0s.1');
     const pasteEvent = new ClipboardEvent('paste', {

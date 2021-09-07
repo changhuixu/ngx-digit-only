@@ -17,7 +17,7 @@
 
 ## CHANGELOG
 
-- **v3.2.0**: `digitOnly` directive now supports disabling paste events (merges a pull request [#57](/../../pull/49), fixes [#56](/../../issues/56)).
+- **v3.2.0**(**v2.4.0**): `digitOnly` directive now supports disabling paste events (merges a pull request [#57](/../../pull/49), fixes [#56](/../../issues/56)).
 
 - **v3.1.0**(**v2.3.0**): `digitOnly` directive now supports negative values (merges a pull request [#49](/../../pull/49)).
 
