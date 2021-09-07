@@ -17,6 +17,8 @@
 
 ## CHANGELOG
 
+- **v3.2.0**: `digitOnly` directive now supports disabling paste events (merges a pull request [#57](/../../pull/49), fixes [#56](/../../issues/56)).
+
 - **v3.1.0**(**v2.3.0**): `digitOnly` directive now supports negative values (merges a pull request [#49](/../../pull/49)).
 
 - **v3.0.0**: a release on par with Angular 12. For projects in Angular v10 or v11, please use v2 of this library.

@@ -135,7 +135,7 @@ describe('Copy & Paste', () => {
     cy.get('#digit-only-decimal').clear();
   });
 
-  it('s', ()=> {
+  it('s', () => {
     const dt = new DataTransfer();
     dt.setData('text/plain', 'abc1.0s.1');
     const pasteEvent = new ClipboardEvent('paste', {
@@ -287,5 +287,24 @@ describe('Copy & Paste', () => {
     });
 
     cy.get('#negative-digit-only').clear();
+  });
+
+  it('should disable paste when [allowPaste] is false', () => {
+    const dt = new DataTransfer();
+    dt.setData('text/plain', 'a-123');
+    const pasteEvent = new ClipboardEvent('paste', {
+      clipboardData: dt,
+      bubbles: true,
+      cancelable: true,
+    });
+
+    cy.get('#digit-only-disable-paste').clear();
+
+    cy.get('#digit-only-disable-paste').then(($el) => {
+      $el[0].dispatchEvent(pasteEvent);
+      cy.get('#digit-only-disable-paste').should('have.value', '');
+    });
+
+    cy.get('#digit-only-disable-paste').clear();
   });
 });
