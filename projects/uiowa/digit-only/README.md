@@ -136,6 +136,17 @@ export class YourModule { }
   digitOnly
   decimal="true"
 />
+
+// Digit Only input allows keypress of specific keys
+<input
+  type="text"
+  name="calculate"
+  placeholder="00"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  digitOnly
+  allowKeys="Slash,BracketRight,NumpadAdd,NumpadSubtract"
+/>
 ```
 
 ### `mask` directive usage
