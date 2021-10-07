@@ -27,17 +27,15 @@ export class DigitOnlyDirective implements OnChanges {
     'Copy',
     'Paste',
   ];
-  private allowedKeys: Array<string> = [];
 
   @Input() decimal = false;
   @Input() decimalSeparator = '.';
-  @Input() allowNegatives = false;
+  @Input() allowNegatives= false;
   @Input() allowPaste = true;
   @Input() negativeSign = '-';
   @Input() min = -Infinity;
   @Input() max = Infinity;
   @Input() pattern?: string | RegExp;
-  @Input() allowKeys: string = "";
   private regex: RegExp | null = null;
   inputElement: HTMLInputElement;
 
@@ -46,8 +44,6 @@ export class DigitOnlyDirective implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.allowedKeys = this.allowKeys.split(',')
-
     if (changes.pattern) {
       this.regex = this.pattern ? RegExp(this.pattern) : null;
     }
@@ -79,7 +75,6 @@ export class DigitOnlyDirective implements OnChanges {
   onKeyDown(e: KeyboardEvent): any {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
-      this.allowedKeys.indexOf(e.code) > -1 || // Allow custom keys
       ((e.key === 'a' || e.code === 'KeyA') && e.ctrlKey === true) || // Allow: Ctrl+A
       ((e.key === 'c' || e.code === 'KeyC') && e.ctrlKey === true) || // Allow: Ctrl+C
       ((e.key === 'v' || e.code === 'KeyV') && e.ctrlKey === true) || // Allow: Ctrl+V
@@ -138,7 +133,7 @@ export class DigitOnlyDirective implements OnChanges {
       e.preventDefault();
     }
   }
-
+  
   @HostListener('paste', ['$event'])
   onPaste(event: any): void {
     if (this.allowPaste === true) {
@@ -155,12 +150,12 @@ export class DigitOnlyDirective implements OnChanges {
 
       this.pasteData(pastedInput);
       event.preventDefault();
-    } else {  // this prevents the paste
+    } else {  // this prevents the paste 
       event.preventDefault();
       event.stopPropagation();
     }
   }
-
+  
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent): void {
