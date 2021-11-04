@@ -30,7 +30,7 @@ export class DigitOnlyDirective implements OnChanges {
 
   @Input() decimal = false;
   @Input() decimalSeparator = '.';
-  @Input() allowNegatives= false;
+  @Input() allowNegatives = false;
   @Input() allowPaste = true;
   @Input() negativeSign = '-';
   @Input() min = -Infinity;
@@ -44,16 +44,16 @@ export class DigitOnlyDirective implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.pattern) {
+    if (changes['pattern']) {
       this.regex = this.pattern ? RegExp(this.pattern) : null;
     }
 
-    if (changes.min) {
+    if (changes['min']) {
       const maybeMin = Number(this.min);
       this.min = isNaN(maybeMin) ? -Infinity : maybeMin;
     }
 
-    if (changes.max) {
+    if (changes['max']) {
       const maybeMax = Number(this.max);
       this.max = isNaN(maybeMax) ? Infinity : maybeMax;
     }
@@ -62,8 +62,10 @@ export class DigitOnlyDirective implements OnChanges {
   @HostListener('beforeinput', ['$event'])
   onBeforeInput(e: InputEvent): any {
     if (isNaN(Number(e.data))) {
-      if (e.data === this.decimalSeparator
-          || (e.data === this.negativeSign && this.allowNegatives)) {
+      if (
+        e.data === this.decimalSeparator ||
+        (e.data === this.negativeSign && this.allowNegatives)
+      ) {
         return; // go on
       }
       e.preventDefault();
@@ -104,7 +106,10 @@ export class DigitOnlyDirective implements OnChanges {
 
     if (e.key === this.negativeSign && this.allowNegatives) {
       newValue = this.forecastValue(e.key);
-      if (newValue.charAt(0) !== this.negativeSign || newValue.split(this.negativeSign).length > 2) {
+      if (
+        newValue.charAt(0) !== this.negativeSign ||
+        newValue.split(this.negativeSign).length > 2
+      ) {
         e.preventDefault();
         return;
       } else {
@@ -133,16 +138,16 @@ export class DigitOnlyDirective implements OnChanges {
       e.preventDefault();
     }
   }
-  
+
   @HostListener('paste', ['$event'])
   onPaste(event: any): void {
     if (this.allowPaste === true) {
       let pastedInput: string = '';
       if ((window as { [key: string]: any })['clipboardData']) {
         // Browser is IE
-        pastedInput = (window as { [key: string]: any })['clipboardData'].getData(
-          'text'
-        );
+        pastedInput = (window as { [key: string]: any })[
+          'clipboardData'
+        ].getData('text');
       } else if (event.clipboardData && event.clipboardData.getData) {
         // Other browsers
         pastedInput = event.clipboardData.getData('text/plain');
@@ -150,12 +155,12 @@ export class DigitOnlyDirective implements OnChanges {
 
       this.pasteData(pastedInput);
       event.preventDefault();
-    } else {  // this prevents the paste 
+    } else {
+      // this prevents the paste
       event.preventDefault();
       event.stopPropagation();
     }
   }
-  
 
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent): void {
@@ -167,9 +172,11 @@ export class DigitOnlyDirective implements OnChanges {
 
   private pasteData(pastedContent: string): void {
     const sanitizedContent = this.sanitizeInput(pastedContent);
-    if (sanitizedContent.includes(this.negativeSign)
-        && this.hasNegativeSign
-        && !this.getSelection().includes(this.negativeSign)) {
+    if (
+      sanitizedContent.includes(this.negativeSign) &&
+      this.hasNegativeSign &&
+      !this.getSelection().includes(this.negativeSign)
+    ) {
       return;
     }
     const pasted = document.execCommand('insertText', false, sanitizedContent);
@@ -201,7 +208,8 @@ export class DigitOnlyDirective implements OnChanges {
       this.hasDecimalPoint =
         this.inputElement.value.indexOf(this.decimalSeparator) > -1;
     }
-    this.hasNegativeSign = this.inputElement.value.indexOf(this.negativeSign) > -1;
+    this.hasNegativeSign =
+      this.inputElement.value.indexOf(this.negativeSign) > -1;
   }
 
   // The following 2 methods were added from the below article for browsers that do not support setRangeText
@@ -236,7 +244,10 @@ export class DigitOnlyDirective implements OnChanges {
     let result = '';
     let regex;
     if (this.decimal && this.isValidDecimal(input)) {
-      regex = new RegExp(`${this.getNegativeSignRegExp()}[^0-9${this.decimalSeparator}]`, 'g');
+      regex = new RegExp(
+        `${this.getNegativeSignRegExp()}[^0-9${this.decimalSeparator}]`,
+        'g'
+      );
     } else {
       regex = new RegExp(`${this.getNegativeSignRegExp()}[^0-9]`, 'g');
     }
@@ -245,14 +256,20 @@ export class DigitOnlyDirective implements OnChanges {
     const maxLength = this.inputElement.maxLength;
     if (maxLength > 0) {
       // the input element has maxLength limit
-      const allowedLength = maxLength - this.inputElement.value.length + (result.includes(`${this.negativeSign}`) ? 1 : 0);
+      const allowedLength =
+        maxLength -
+        this.inputElement.value.length +
+        (result.includes(`${this.negativeSign}`) ? 1 : 0);
       result = allowedLength > 0 ? result.substring(0, allowedLength) : '';
     }
     return result;
   }
 
-  private getNegativeSignRegExp() : string {
-    return this.allowNegatives && (!this.hasNegativeSign || this.getSelection().includes(this.negativeSign)) ? `(?!^${this.negativeSign})` : '';
+  private getNegativeSignRegExp(): string {
+    return this.allowNegatives &&
+      (!this.hasNegativeSign || this.getSelection().includes(this.negativeSign))
+      ? `(?!^${this.negativeSign})`
+      : '';
   }
 
   private isValidDecimal(string: string): boolean {
@@ -280,8 +297,10 @@ export class DigitOnlyDirective implements OnChanges {
     const selectionStart = this.inputElement.selectionStart ?? 0;
     const selectionEnd = this.inputElement.selectionEnd ?? 0;
     const oldValue = this.inputElement.value;
-    return oldValue.substring(0, selectionStart) +
-        key +
-        oldValue.substring(selectionEnd);
+    return (
+      oldValue.substring(0, selectionStart) +
+      key +
+      oldValue.substring(selectionEnd)
+    );
   }
 }

@@ -21,9 +21,6 @@
         "@schematics/angular:interceptor": {
           "skipTests": true
         },
-        "@schematics/angular:module": {
-          "skipTests": true
-        },
         "@schematics/angular:pipe": {
           "skipTests": true
         },
@@ -46,8 +43,13 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -123,14 +125,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/uiowa/digit-only/src/test.ts",
-            "tsConfig": "projects/uiowa/digit-only/tsconfig.spec.json",
-            "karmaConfig": "projects/uiowa/digit-only/karma.conf.js"
-          }
         }
       }
     }
