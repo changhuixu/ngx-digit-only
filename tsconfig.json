@@ -4,7 +4,6 @@
   "compilerOptions": {
     "paths": {
       "@uiowa/digit-only": [
-        "dist/uiowa/digit-only/uiowa-digit-only",
         "dist/uiowa/digit-only"
       ]
     },
@@ -22,7 +21,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2017",
+    "target": "es2020",
     "module": "es2020",
     "lib": [
       "es2020",

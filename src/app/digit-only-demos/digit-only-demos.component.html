@@ -207,4 +207,21 @@
       placeholder="00000"
     />
   </section>
+
+  <section>
+    <h3><code>digitOnly</code> directive: allow Specific Keys</h3>
+    <label for="digit-only-allow-keys">
+      Digit Only input allows keypress of specific keys
+    </label>
+    <input
+      id="digit-only-allow-keys"
+      type="text"
+      name="calculate"
+      placeholder="00"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      digitOnly
+      allowKeys="Slash,BracketRight,NumpadAdd,NumpadSubtract"
+    />
+  </section>
 </div>
