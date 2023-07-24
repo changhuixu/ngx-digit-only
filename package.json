@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "build:prod": "ng build --configuration production",
+    "build:gh-pages": "ng build --base-href /ngx-digit-only/",
     "build:lib": "ng build --project=@uiowa/digit-only --configuration production",
     "cypress:open": "start-server-and-test start http://localhost:4200 \"cypress open\"",
     "cypress:verify": "cypress verify",

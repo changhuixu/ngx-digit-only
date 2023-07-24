@@ -1,9 +1,9 @@
 # Angular DigitOnly Directive and Mask Directive
 
-[![Build Status](https://travis-ci.com/changhuixu/ngx-digit-only.svg?branch=main)](https://travis-ci.com/changhuixu/ngx-digit-only)
+[![Build Status](https://github.com/changhuixu/ngx-digit-only/actions/workflows/main.yml/badge.svg)](https://github.com/changhuixu/ngx-digit-only/actions)
 [![npm](https://img.shields.io/npm/v/@uiowa/digit-only.svg)](https://www.npmjs.com/package/@uiowa/digit-only)
 
-## [Demo](https://digit-only.firebaseapp.com)
+## [Demo](https://changhuixu.github.io/ngx-digit-only/)
 
 [Medium Article: Digit Only Directive in Angular](https://codeburst.io/digit-only-directive-in-angular-3db8a94d80c3)
 
