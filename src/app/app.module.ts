@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { DigitOnlyModule } from 'projects/uiowa/digit-only/src/public-api';
 import { DigitOnlyDemosComponent } from './digit-only-demos/digit-only-demos.component';
 import { MaskDemosComponent } from './mask-demos/mask-demos.component';
+import { DigitOnlyModule } from '../../projects/uiowa/digit-only/src/public-api';
 // import { DigitOnlyModule } from '@uiowa/digit-only';
 
 @NgModule({
