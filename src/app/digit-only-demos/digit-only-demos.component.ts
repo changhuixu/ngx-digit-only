@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-digit-only-demos',
   templateUrl: './digit-only-demos.component.html',
   styleUrls: ['./digit-only-demos.component.css'],
 })
-export class DigitOnlyDemosComponent implements OnInit {
+export class DigitOnlyDemosComponent {
   amount: string = '';
   min = 0;
   max = 10;
@@ -14,7 +14,6 @@ export class DigitOnlyDemosComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
   watchAmountValue() {
     const value = Number(this.amount);
     this.amount = value.toFixed(2);

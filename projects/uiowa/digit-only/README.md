@@ -67,7 +67,10 @@ npm i @uiowa/digit-only
 
 ```typescript
 // in your Angular module
-import { DigitOnlyModule } from '@uiowa/digit-only';
+import {   
+  DigitOnlyDirective,
+  MaskDirective,
+} from '@uiowa/digit-only';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,10 @@ import { DigitOnlyModule } from '@uiowa/digit-only';
   ],
   imports: [
     BrowserModule,
-    DigitOnlyModule
+
+    // DigitOnly
+    DigitOnlyDirective,
+    MaskDirective,
   ],
   ...
 })
