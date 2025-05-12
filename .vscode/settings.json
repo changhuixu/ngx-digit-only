@@ -1,8 +1,13 @@
 {
-    "cSpell.words": [
-        "beforeinput",
-        "devkit",
-        "packagr",
-        "uiowa"
-    ]
+  "cSpell.words": [
+    "beforeinput",
+    "Changhui",
+    "devkit",
+    "packagr",
+    "uiowa",
+    "packagr"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  }
 }

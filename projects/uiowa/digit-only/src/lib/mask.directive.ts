@@ -1,9 +1,12 @@
-import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[mask]',
+  host: {
+    '(keydown)': 'onKeyDown($event)',
+  },
 })
-export class MaskDirective implements OnInit {
+export class MaskDirective {
   private navigationKeys = [
     'Backspace',
     'Delete',
@@ -29,7 +32,6 @@ export class MaskDirective implements OnInit {
     this.regex = new RegExp(this.inputElement.pattern);
   }
 
-  @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.

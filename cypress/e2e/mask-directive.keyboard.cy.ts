@@ -1,6 +1,6 @@
 describe('Keyboard Typing', () => {
   beforeEach(() => {
-    cy.visit('mask');
+    cy.visit('#/mask');
   });
 
   it('should only allow pattern', () => {

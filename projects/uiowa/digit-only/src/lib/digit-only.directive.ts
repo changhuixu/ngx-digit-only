@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  HostListener,
   Input,
   OnChanges,
   SimpleChanges,
@@ -9,6 +8,12 @@ import {
 
 @Directive({
   selector: '[digitOnly]',
+  host: {
+    '(beforeinput)': 'onBeforeInput($event)',
+    '(keydown)': 'onKeyDown($event)',
+    '(paste)': 'onPaste($event)',
+    '(drop)': 'onDrop($event)',
+  },
 })
 export class DigitOnlyDirective implements OnChanges {
   private hasDecimalPoint = false;
@@ -59,7 +64,6 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
-  @HostListener('beforeinput', ['$event'])
   onBeforeInput(e: InputEvent): any {
     if (isNaN(Number(e.data))) {
       if (
@@ -73,7 +77,6 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
-  @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent): any {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
@@ -139,7 +142,6 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
-  @HostListener('paste', ['$event'])
   onPaste(event: any): void {
     if (this.allowPaste === true) {
       let pastedInput: string = '';
@@ -162,7 +164,6 @@ export class DigitOnlyDirective implements OnChanges {
     }
   }
 
-  @HostListener('drop', ['$event'])
   onDrop(event: DragEvent): void {
     const textData = event.dataTransfer?.getData('text') ?? '';
     this.inputElement.focus();

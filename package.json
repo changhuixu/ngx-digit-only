@@ -7,32 +7,31 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "build:gh-pages": "ng build --base-href /ngx-digit-only/",
-    "build:lib": "ng build --project=@uiowa/digit-only --configuration production",
+    "build:lib": "ng build --project=@uiowa/digit-only",
     "cypress:open": "start-server-and-test start http://localhost:4200 \"cypress open\"",
     "cypress:verify": "cypress verify",
     "cypress:run": "start-server-and-test start http://localhost:4200 \"cypress run\""
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.0.0",
-    "@angular/common": "^17.0.0",
-    "@angular/compiler": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/forms": "^17.0.0",
-    "@angular/platform-browser": "^17.0.0",
-    "@angular/platform-browser-dynamic": "^17.0.0",
-    "@angular/router": "^17.0.0",
+    "@angular/common": "^19.2.0",
+    "@angular/compiler": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
+    "@angular/platform-browser-dynamic": "^19.2.0",
+    "@angular/router": "^19.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.0.5",
-    "@angular/cli": "^17.0.5",
-    "@angular/compiler-cli": "^17.0.0",
-    "cypress": "^13.6.0",
-    "ng-packagr": "^17.0.0",
-    "start-server-and-test": "^2.0.3",
-    "typescript": "~5.2.2"
+    "@angular-devkit/build-angular": "^19.2.11",
+    "@angular/cli": "^19.2.11",
+    "@angular/compiler-cli": "^19.2.0",
+    "cypress": "^14.3.3",
+    "ng-packagr": "^19.2.0",
+    "start-server-and-test": "^2.0.11",
+    "typescript": "~5.7.2"
   }
 }
