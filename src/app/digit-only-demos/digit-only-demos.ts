@@ -5,10 +5,10 @@ import { DigitOnlyDirective } from '../../../projects/uiowa/digit-only/src/publi
 @Component({
   selector: 'app-digit-only-demos',
   imports: [DigitOnlyDirective, FormsModule],
-  templateUrl: './digit-only-demos.component.html',
-  styleUrl: './digit-only-demos.component.css',
+  templateUrl: './digit-only-demos.html',
+  styleUrl: './digit-only-demos.css',
 })
-export class DigitOnlyDemosComponent {
+export class DigitOnlyDemos {
   amount = '';
   min = 0;
   max = 10;

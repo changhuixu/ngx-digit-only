@@ -4,11 +4,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@uiowa/digit-only": [
-        "./dist/uiowa/digit-only"
-      ]
+      "@uiowa/digit-only": ["./dist/uiowa/digit-only"]
     },
-    "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -16,17 +13,24 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "esModuleInterop": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "preserve"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./projects/uiowa/digit-only/tsconfig.lib.json"
+    }
+  ]
 }
