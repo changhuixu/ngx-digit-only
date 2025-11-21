@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { DigitOnlyDemosComponent } from './digit-only-demos/digit-only-demos.component';
-import { MaskDemosComponent } from './mask-demos/mask-demos.component';
+import { DigitOnlyDemos } from './digit-only-demos/digit-only-demos';
+import { MaskDemos } from './mask-demos/mask-demos';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'demo' },
-  { path: 'demo', component: DigitOnlyDemosComponent },
-  { path: 'mask', component: MaskDemosComponent },
+  { path: 'demo', component: DigitOnlyDemos },
+  { path: 'mask', component: MaskDemos },
   { path: '**', redirectTo: '' },
 ];

@@ -1,6 +1,10 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "cli": {
+    "packageManager": "npm",
+    "analytics": "78a806da-7604-4a8f-9ffc-d44f434d3fb0"
+  },
   "newProjectRoot": "projects",
   "projects": {
     "ngx-digit-only": {
@@ -36,12 +40,9 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/ngx-digit-only",
-            "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -49,8 +50,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"],
-            "scripts": []
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {
@@ -77,7 +77,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "ngx-digit-only:build:production"
@@ -87,9 +87,6 @@
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
         }
       }
     },
@@ -100,10 +97,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/uiowa/digit-only/ng-package.json"
-          },
+          "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
               "tsConfig": "projects/uiowa/digit-only/tsconfig.lib.prod.json"
@@ -116,8 +110,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "78a806da-7604-4a8f-9ffc-d44f434d3fb0"
   }
 }

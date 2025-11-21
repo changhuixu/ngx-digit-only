@@ -3,9 +3,9 @@
     "beforeinput",
     "Changhui",
     "devkit",
+    "noopener",
     "packagr",
-    "uiowa",
-    "packagr"
+    "uiowa"
   ],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
